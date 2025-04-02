@@ -9,13 +9,13 @@ public class CreateTable {
             Class.forName("com.mysql.cj.jdbc.Driver");
             String url = "jdbc:mysql://localhost:3306/quanliguixe?useSSL=false&serverTimezone=UTC";
             String userName = "root";
-            String password = "1111";
+            String password = "quyet1110";
 
             try (Connection newConnection = DriverManager.getConnection(url, userName, password);
                  Statement statement = newConnection.createStatement()) {
                 String createTableSQL = "CREATE TABLE IF NOT EXISTS vehicles (" +
                                        "license_number INT AUTO_INCREMENT PRIMARY KEY, " +
-                                       "vehicle_type VARCHAR(20) NOT NULL " ;
+                                       "vehicle_type VARCHAR(20) NOT NULL)";
                 statement.executeUpdate(createTableSQL);
                 JOptionPane.showMessageDialog(null, "Bảng vehicles đã được tạo thành công!",
                     "System Message", JOptionPane.INFORMATION_MESSAGE);

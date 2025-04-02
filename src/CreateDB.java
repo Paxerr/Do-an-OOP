@@ -13,7 +13,7 @@ public class CreateDB {
             String url = "jdbc:mysql://localhost:3306/?useSSL=false&serverTimezone=UTC";
             String databaseName = "quanliguixe";
             String userName = "root";
-            String password = "1111";
+            String password = "quyet1110";
 
             Connection connection = DriverManager.getConnection(url, userName, password);
 
