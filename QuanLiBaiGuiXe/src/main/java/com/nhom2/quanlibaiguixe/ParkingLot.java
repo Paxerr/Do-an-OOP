@@ -13,4 +13,15 @@ public class ParkingLot {
     private int Capacity;
     private List<Vehicle> ParkedVehicle = new ArrayList<>();
     private int AvailableSpace;
+    public void getAvailableSpace(){
+        System.out.println(this.AvailableSpace);
+    }
+    public boolean CheckAvailable(){
+        if(this.AvailableSpace == 0)
+        return false;
+        else return true;
+    }
+    public void FreeLocate(){
+        
+    }
 }

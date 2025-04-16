@@ -5,7 +5,7 @@
 package com.nhom2.quanlibaiguixe;
 
 public class Person {
-    private String FullName, Address, PhoneNumber, Identifier;
+    protected String FullName, Address, PhoneNumber, Identifier;
     Person(String FullName,String Address,String PhoneNumber,String Identifier){
         this.FullName = FullName;
         this.Address = Address;

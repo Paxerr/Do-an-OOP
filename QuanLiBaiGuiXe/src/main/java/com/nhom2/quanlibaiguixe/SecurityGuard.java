@@ -8,9 +8,11 @@ package com.nhom2.quanlibaiguixe;
  *
  * @author Moderator
  */
-public SecurityGuard extends Person{
+public class SecurityGuard extends Person{
     private String ID, Password;
-    SercurityGuard(String ID, String Password){
+    public SecurityGuard(String FullName, String Address, String PhoneNumber,
+                         String Identifier, String ID, String Password) {
+        super(FullName, Address, PhoneNumber, Identifier);
         this.ID = ID;
         this.Password = Password;
     }

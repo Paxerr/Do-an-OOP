@@ -10,8 +10,8 @@ package com.nhom2.quanlibaiguixe;
  */
 public class Vehicle{
     private String LicenseNumber;
-    private static String VehicleType;
-    private int Cost;
+    protected String VehicleType;
+    protected int Cost;
     
     public int GetIn() {
         return 1;

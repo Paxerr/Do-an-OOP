@@ -8,6 +8,8 @@ package com.nhom2.quanlibaiguixe;
  *
  * @author Moderator
  */
-public class Car {
-    
+public class Car extends Vehicle{
+    Car(){
+        this.VehicleType = "Car";
+    }
 }
