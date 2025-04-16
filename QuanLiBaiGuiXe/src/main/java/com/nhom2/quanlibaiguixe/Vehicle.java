@@ -31,4 +31,8 @@ public class Vehicle{
     public void setLicenseNumber(String LicenseNumber) {
         this.LicenseNumber = LicenseNumber;
     }
+
+    public String getVehicleType() {
+        return VehicleType;
+    }
 }

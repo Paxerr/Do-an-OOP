@@ -9,8 +9,9 @@ import java.util.*;
  * @author Moderator
  */
 public class ParkingLot {
-    private String LotID;
+    private String LotID, Type;
     private int Capacity;
+
     private List<Vehicle> ParkedVehicle = new ArrayList<>();
     private int AvailableSpace;
     public void FreeLocate(String LicenseNumber){
@@ -21,6 +22,7 @@ public class ParkingLot {
             }
         }
     }
+    
     public void TakeLocate(Vehicle vehicle){
         this.ParkedVehicle.add(vehicle);
         this.AvailableSpace--;
@@ -54,4 +56,11 @@ public class ParkingLot {
         return AvailableSpace;
     }
     
+    public void setType(String Type) {
+        this.Type = Type;
+    }
+
+    public String getType() {
+        return Type;
+    }
 }
