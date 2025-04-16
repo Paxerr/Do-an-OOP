@@ -77,7 +77,7 @@ public class ParkingTicket {
         System.out.println("Vị trí đỗ: " + located);
         if (vehicle != null) {
             System.out.println("Thông tin xe:");
-            vehicle.display(); // Giả sử class Vehicle có phương thức display()
+            vehicle.display(); 
         }
         System.out.println("------------------");
     }

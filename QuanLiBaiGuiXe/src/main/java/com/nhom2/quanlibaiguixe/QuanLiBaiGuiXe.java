@@ -11,6 +11,6 @@ package com.nhom2.quanlibaiguixe;
 public class QuanLiBaiGuiXe {
 
     public static void main(String[] args) {
-
+        System.out.print("helo");
     }
 }
