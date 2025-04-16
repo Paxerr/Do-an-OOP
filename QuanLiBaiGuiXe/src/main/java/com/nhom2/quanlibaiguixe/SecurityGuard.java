@@ -10,10 +10,16 @@ package com.nhom2.quanlibaiguixe;
  */
 public class SecurityGuard extends Person{
     private String ID, Password;
-    public SecurityGuard(String FullName, String Address, String PhoneNumber,
-                         String Identifier, String ID, String Password) {
-        super(FullName, Address, PhoneNumber, Identifier);
+    public String getID() {
+        return ID;
+    }
+    public String getPassword() {
+        return Password;
+    }
+    public void setID(String ID) {
         this.ID = ID;
+    }
+    public void setPassword(String Password) {
         this.Password = Password;
     }
 }

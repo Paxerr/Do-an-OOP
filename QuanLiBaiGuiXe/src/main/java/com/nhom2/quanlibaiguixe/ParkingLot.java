@@ -13,15 +13,45 @@ public class ParkingLot {
     private int Capacity;
     private List<Vehicle> ParkedVehicle = new ArrayList<>();
     private int AvailableSpace;
-    public void getAvailableSpace(){
-        System.out.println(this.AvailableSpace);
+    public void FreeLocate(String LicenseNumber){
+        for(Vehicle tmp : this.ParkedVehicle){
+            if(tmp.getLicenseNumber() == LicenseNumber) {
+                this.ParkedVehicle.remove(tmp);
+                this.AvailableSpace++;
+            }
+        }
     }
-    public boolean CheckAvailable(){
-        if(this.AvailableSpace == 0)
-        return false;
-        else return true;
+    public void TakeLocate(Vehicle vehicle){
+        this.ParkedVehicle.add(vehicle);
+        this.AvailableSpace--;
     }
-    public void FreeLocate(){
-        
+
+    public void setLotID(String LotID) {
+        this.LotID = LotID;
     }
+
+    public void setCapacity(int Capacity) {
+        this.Capacity = Capacity;
+    }
+
+    public void setAvailableSpace(int AvailableSpace) {
+        this.AvailableSpace = AvailableSpace;
+    }
+
+    public String getLotID() {
+        return LotID;
+    }
+
+    public int getCapacity() {
+        return Capacity;
+    }
+
+    public List<Vehicle> getParkedVehicle() {
+        return ParkedVehicle;
+    }
+
+    public int getAvailableSpace() {
+        return AvailableSpace;
+    }
+    
 }
