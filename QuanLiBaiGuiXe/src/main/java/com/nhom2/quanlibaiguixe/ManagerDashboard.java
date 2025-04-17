@@ -1,5 +1,4 @@
-package com.mycompany.parkingmanagementsystem;
-
+package com.nhom2.quanlibaiguixe;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;

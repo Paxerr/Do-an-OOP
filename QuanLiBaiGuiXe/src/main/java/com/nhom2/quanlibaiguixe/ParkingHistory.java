@@ -1,5 +1,4 @@
-package com.mycompany.parkingmanagementsystem;
-
+package com.nhom2.quanlibaiguixe;
 public class ParkingHistory {
     private String vehicleId;
     private String licensePlate;

@@ -1,5 +1,4 @@
-package com.mycompany.parkingmanagementsystem;
-
+package com.nhom2.quanlibaiguixe;
 public class Staff {
     private String id;
     private String name;
