@@ -1,38 +1,43 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-package com.nhom2.quanlibaiguixe;
+package com.mycompany.parkingmanagementsystem;
 
-/**
- *
- * @author Moderator
- */
-public class Vehicle{
-    Vehicle(){};
-    private String LicenseNumber;
-    protected String VehicleType;
-    protected int Cost;
-    public int GetIn() {
-        return 1;
-    }
-    public int GetOut() {
-        return 1;
-    }
-    public void setCost(int Cost) {
-        this.Cost = Cost;
-    }
-    public int getCost() {
-        return Cost;
-    }
-    public String getLicenseNumber() {
-        return LicenseNumber;
-    }
-    public void setLicenseNumber(String LicenseNumber) {
-        this.LicenseNumber = LicenseNumber;
+public class Vehicle {
+    private String id;
+    private String licensePlate;
+    private String type;
+    private String name;
+    private String color;
+    private String ticketType;
+    private String entryTime;
+
+    public Vehicle(String id, String licensePlate, String type, String name, String color, String ticketType, String entryTime) {
+        this.id = id;
+        this.licensePlate = licensePlate.trim();
+        this.type = type;
+        this.name = name.trim();
+        this.color = color.trim();
+        this.ticketType = ticketType;
+        this.entryTime = entryTime;
     }
 
-    public String getVehicleType() {
-        return VehicleType;
-    }
+    // Getters and setters
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
+
+    public String getLicensePlate() { return licensePlate; }
+    public void setLicensePlate(String licensePlate) { this.licensePlate = licensePlate.trim(); }
+
+    public String getType() { return type; }
+    public void setType(String type) { this.type = type; }
+
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name.trim(); }
+
+    public String getColor() { return color; }
+    public void setColor(String color) { this.color = color.trim(); }
+
+    public String getTicketType() { return ticketType; }
+    public void setTicketType(String ticketType) { this.ticketType = ticketType; }
+
+    public String getEntryTime() { return entryTime; }
+    public void setEntryTime(String entryTime) { this.entryTime = entryTime; }
 }
