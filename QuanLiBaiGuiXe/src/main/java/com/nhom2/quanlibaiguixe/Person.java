@@ -5,7 +5,7 @@
 package com.nhom2.quanlibaiguixe;
 
 public class Person {
-    protected String FullName, Address, PhoneNumber, Identifier;
+    protected String FullName, Address, PhoneNumber, Identifier, BirthDate, Gender;
     Person(){};
     public String getFullName() {
         return FullName;

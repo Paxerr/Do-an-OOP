@@ -1,21 +1,17 @@
 package com.nhom2.quanlibaiguixe;
-public class Staff {
+public class Staff extends Person{
     private String id;
-    private String name;
     private String role;
-    private String birthDate;
-    private String gender;
-    private String address;
-    private String phone;
 
-    public Staff(String id, String name, String role, String birthDate, String gender, String address, String phone) {
+    public Staff(String id, String FullName, String role, String BirthDate, String Gender, String Address, String PhoneNumber, String Identifier) {
         this.id = id;
-        this.name = name.trim();
+        this.name = FullName.trim();
         this.role = role;
-        this.birthDate = birthDate;
-        this.gender = gender;
-        this.address = address.trim();
-        this.phone = phone.trim();
+        this.birthDate = BirthDate;
+        this.gender = Gender;
+        this.Address = Address.trim();
+        this.PhoneNumber = PhoneNumber.trim();
+        this.Identifier = Identifier.trim();
     }
 
     // Getters and setters
