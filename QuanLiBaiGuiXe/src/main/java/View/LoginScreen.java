@@ -1,5 +1,6 @@
-package com.mycompany.parkingmanagementsystem;
-
+package View;
+import Controller.*;
+import Model.*;
 import javax.swing.*;
 import java.awt.*;
 
@@ -54,21 +55,18 @@ public class LoginScreen extends JFrame {
         loginBtn.addActionListener(e -> {
             String username = usernameField.getText().trim();
             String password = new String(passwordField.getPassword()).trim();
-
-            if (username.isEmpty() || password.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Vui lòng điền đầy đủ thông tin!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            String tmp = LoginScreenController.Login(username, password, this);
+            if(tmp == " ") {
+                JOptionPane.showMessageDialog(this, "Thông tin đăng nhập không chính xác", "Lỗi", JOptionPane.ERROR_MESSAGE);
                 return;
             }
-
-            // Kiểm tra vai trò dựa trên tên đăng nhập
-            if (username.equalsIgnoreCase("admin")) {
-                JOptionPane.showMessageDialog(this, "Đăng nhập thành công với vai trò Quản lý!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            else {
+                
+            }
+            if (username.isEmpty() || password.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Đăng nhập thành công với vai trò " + tmp + " !", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
                 dispose();
-                new ManagerDashboard(username, "Quản lý").setVisible(true);
-            } else {
-                JOptionPane.showMessageDialog(this, "Đăng nhập thành công với vai trò Nhân viên!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-                dispose();
-                new SercurityGuardDashboard(username, "Nhân viên").setVisible(true);
+                new SercurityGuardDashboard(username, tmp).setVisible(true);
             }
         });
 

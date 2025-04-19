@@ -1,4 +1,6 @@
-package com.mycompany.parkingmanagementsystem;
+package View;
+import Controller.*;
+import Model.*;
 
 import javax.swing.*;
 import java.awt.*;
