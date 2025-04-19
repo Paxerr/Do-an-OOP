@@ -1,39 +1,39 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-package DataBase;
-
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-/**
- *
- * @author Moderator
- */
-public class JDBCUtil {
-    public static Connection GetConnection() throws SQLException {
-        Connection tmp = null;
-        try {
-        DriverManager.registerDriver(new com.mysql.jdbc.Driver());
-        String url = "jdbc:mysql://localhost:3306/quanliguixe";
-        String username = "root";
-        String password = "quyet1110";
-        tmp = DriverManager.getConnection(url,username,password);
-        } catch(SQLException e) {
-            e.printStackTrace();
-        }
-        return tmp; 
-    }
-    
-    public static void CloseConnection(Connection tmp){
-        try {
-            if(tmp != null) tmp.close();
-        } catch(Exception e) {
-            e.printStackTrace();
-        }
-    }
-}
+package Database;
+ 
+ import java.sql.Connection;
+ import java.sql.DriverManager;
+ import java.sql.SQLException;
+ 
+ public class JDBCUtil { 
+     private static final String URL = "jdbc:mysql://localhost:3306/quanliguixe";
+     private static final String USER = "root";
+     private static final String PASSWORD = "quyet1110";
+ 
+     public static Connection getConnection() {
+         Connection c = null;
+         try {
+             
+             Class.forName("com.mysql.cj.jdbc.Driver");
+            
+             c = DriverManager.getConnection(URL, USER, PASSWORD);
+         } catch (ClassNotFoundException e) {
+             System.err.println("Không tìm thấy driver MySQL: " + e.getMessage());
+             e.printStackTrace();
+         } catch (SQLException e) {
+             System.err.println("Kết nối thất bại: " + e.getMessage());
+             e.printStackTrace();
+         }
+         return c;
+     }
+ 
+     public static void closeConnection(Connection connection) {
+         if (connection != null) {
+             try {
+                 connection.close();
+             } catch (SQLException e) {
+                 System.err.println("Lỗi khi đóng kết nối: " + e.getMessage());
+                 e.printStackTrace();
+             }
+         }
+     }
+ }
