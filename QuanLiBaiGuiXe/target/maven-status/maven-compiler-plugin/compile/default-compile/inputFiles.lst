@@ -2,13 +2,14 @@ F:\DoAnOOP\QuanLiBaiGuiXe\src\main\java\Controller\LoginScreenController.java
 F:\DoAnOOP\QuanLiBaiGuiXe\src\main\java\DataBase\JDBCUtil.java
 F:\DoAnOOP\QuanLiBaiGuiXe\src\main\java\Model\Bicycle.java
 F:\DoAnOOP\QuanLiBaiGuiXe\src\main\java\Model\Car.java
+F:\DoAnOOP\QuanLiBaiGuiXe\src\main\java\Model\connect.java
 F:\DoAnOOP\QuanLiBaiGuiXe\src\main\java\Model\MonthlyCard.java
 F:\DoAnOOP\QuanLiBaiGuiXe\src\main\java\Model\Motorbike.java
 F:\DoAnOOP\QuanLiBaiGuiXe\src\main\java\Model\ParkingLot.java
 F:\DoAnOOP\QuanLiBaiGuiXe\src\main\java\Model\ParkingTicket.java
 F:\DoAnOOP\QuanLiBaiGuiXe\src\main\java\Model\Person.java
 F:\DoAnOOP\QuanLiBaiGuiXe\src\main\java\Model\Report.java
-F:\DoAnOOP\QuanLiBaiGuiXe\src\main\java\Model\SecurityGuard.java
+F:\DoAnOOP\QuanLiBaiGuiXe\src\main\java\Model\User.java
 F:\DoAnOOP\QuanLiBaiGuiXe\src\main\java\Model\Vehicle.java
 F:\DoAnOOP\QuanLiBaiGuiXe\src\main\java\View\ChangeInfoScreen.java
 F:\DoAnOOP\QuanLiBaiGuiXe\src\main\java\View\LoginScreen.java
