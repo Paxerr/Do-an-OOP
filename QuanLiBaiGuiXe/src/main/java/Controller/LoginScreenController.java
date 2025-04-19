@@ -13,14 +13,14 @@ import javax.swing.*;
  * @author Moderator
  */
 public class LoginScreenController {
-       public static String Login(String ID, String Password, JFrame frame) {
-        if (ID.isEmpty() || Password.isEmpty()) {
-            return " ";
-        }
-        if (true) {
-            return " ";
-        }
-        else
-            String
-    }
+//       public static String Login(String ID, String Password, JFrame frame) {
+//        if (ID.isEmpty() || Password.isEmpty()) {
+//            return " ";
+//        }
+//        if (true) {
+//            return " ";
+//        }
+//        else
+//            String
+//    }
 }

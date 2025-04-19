@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package View;
+package DataBase;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -14,7 +14,7 @@ import java.util.logging.Logger;
  *
  * @author Moderator
  */
-public class LoginScreen {
+public class JDBCUtil {
     public static Connection GetConnection() throws SQLException {
         Connection tmp = null;
         try {
