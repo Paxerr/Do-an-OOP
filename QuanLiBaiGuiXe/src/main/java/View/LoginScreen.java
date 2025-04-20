@@ -56,18 +56,23 @@ public class LoginScreen extends JFrame {
             String username = usernameField.getText().trim();
             String password = new String(passwordField.getPassword()).trim();
             String tmp = LoginScreenController.Login(username, password);
-            if(tmp == " ") {
-                JOptionPane.showMessageDialog(this, "Thông tin đăng nhập không chính xác", "Lỗi", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-            else if(tmp == "error") {
-                JOptionPane.showMessageDialog(this, "Hệ thống gặp lỗi", "Lỗi", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-            else{
-                JOptionPane.showMessageDialog(this, "Đăng nhập thành công với vai trò " + tmp + " !", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-                dispose();
-                new SercurityGuardDashboard(username, tmp).setVisible(true);
+            switch(tmp){
+                case(" "): 
+                    JOptionPane.showMessageDialog(this, "Thông tin đăng nhập không chính xác", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                    break;
+                case("Nhân viên"):
+                    JOptionPane.showMessageDialog(this, "Đăng nhập thành công với vai trò " + tmp + " !", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                    dispose();
+                    new SercurityGuardDashboard(username,tmp).setVisible(true);
+                    break;
+                case("Quản lí") :
+                    JOptionPane.showMessageDialog(this, "Đăng nhập thành công với vai trò " + tmp + " !", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                    dispose();
+                    new ManagerDashboard(username,tmp).setVisible(true);
+                    break;
+                default:
+                    JOptionPane.showMessageDialog(this, "Hệ thống gặp lỗi", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                    break;
             }
         });
 
