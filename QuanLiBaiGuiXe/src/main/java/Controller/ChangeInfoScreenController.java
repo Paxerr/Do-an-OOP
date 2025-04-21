@@ -11,5 +11,7 @@ import View.*;
  * @author Moderator
  */
 public class ChangeInfoScreenController {
-    
+    public void NewUser(){
+        
+    }
 }
