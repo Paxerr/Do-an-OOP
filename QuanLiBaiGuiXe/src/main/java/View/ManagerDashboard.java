@@ -119,7 +119,7 @@ public class ManagerDashboard extends JFrame {
         gbc.gridy = 1;
         vehiclePanel.add(new JLabel("Loại xe: *"), gbc);
         gbc.gridx = 1;
-        vehicleTypeCombo = new JComboBox<>(new String[]{"Xe máy", "Ô tô","Xe đạp"});
+        vehicleTypeCombo = new JComboBox<>(new String[]{"Xe máy", "Ô tô"});
         vehicleTypeCombo.setPreferredSize(fieldSize);
         vehiclePanel.add(vehicleTypeCombo, gbc);
 
@@ -162,11 +162,11 @@ public class ManagerDashboard extends JFrame {
         entryDateField.setEditable(false);
         vehiclePanel.add(entryDateField, gbc);
 
-        vehicleTypeCombo.addActionListener(e -> {
-            boolean isvehicle = vehicleTypeCombo.getSelectedItem().toString().equals("Xe đạp");
-            vehiclePlateInputLabel.setVisible(!isvehicle);
-            vehiclePlateInputField.setVisible(!isvehicle);
-        });
+//        vehicleTypeCombo.addActionListener(e -> {
+//            boolean isvehicle = vehicleTypeCombo.getSelectedItem().toString().equals("Xe đạp");
+//            vehiclePlateInputLabel.setVisible(!isvehicle);
+//            vehiclePlateInputField.setVisible(!isvehicle);
+//        });
 
         String[] vehicleColumns = {"Mã", "Biển số", "Loại xe", "Loại vé", "TG vào bến"};
         vehicleModel = new DefaultTableModel(vehicleColumns, 0);

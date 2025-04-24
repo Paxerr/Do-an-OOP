@@ -5,13 +5,13 @@
 package Controller;
 import Model.*;
 import View.*;
-
+import java.time.LocalDateTime;
 /**
  *
  * @author Moderator
  */
-public class ChangeInfoScreenController {
-    public void NewUser(){
+public class ManagerDashBoardController {
+    public void ThemXe(String id, String licensePlate,String type,String ticketType,LocalDateTime fullEntryTime){
         
-    }
+    };
 }
