@@ -1,5 +1,6 @@
 package View;
 
+import Controller.*;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
@@ -362,9 +363,9 @@ public class ManagerDashboard extends JFrame {
 
         // Listener (Quản lý xe)
         vehicleAddBtn.addActionListener(e -> {
-            String Liscense_number = vehiclePlateInputField.getText().trim();
-            String Vehicle_Type = vehicleTypeCombo.getSelectedItem().toString();
-            String ticketType =" ";
+            String LicenseNumber = vehiclePlateInputField.getText().trim();
+            String VehicleType = vehicleTypeCombo.getSelectedItem().toString();
+//            String ticketType =" ";
 
             
             LocalDateTime now = LocalDateTime.now();
@@ -380,12 +381,19 @@ public class ManagerDashboard extends JFrame {
             String Ticket_id = "ID" + String.format("%04d", vehiclesList.size() + 1);
             String EntryTime = entryDate + " " + entryTime;
             
-            if (Liscense_number.isEmpty() &&(Vehicle_Type.equals("Xe máy")||(Vehicle_Type.equals("Ô tô")))) {
+            if (LicenseNumber.isEmpty() &&(VehicleType.equals("Xe máy")||(VehicleType.equals("Ô tô")))) {
                 JOptionPane.showMessageDialog(this, "Vui lòng điền đầy đủ thông tin!", "Lỗi", JOptionPane.ERROR_MESSAGE);
                 return;
             }
             
-            vehiclesList.add(new Object[]{Ticket_id, Liscense_number, Vehicle_Type, ticketType, EntryTime});
+ 
+            String TicketType = ManagerDashBoardController.ThemXe(LicenseNumber, VehicleType, EntryTime);
+            if(TicketType == "error") 
+                JOptionPane.showMessageDialog(this, "Lỗi hệ thống!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            
+            ticketTypeField.setText(TicketType);
+            
+            vehiclesList.add(new Object[]{Ticket_id, LicenseNumber, VehicleType, TicketType, EntryTime});
             vehicleModel.setRowCount(0);
             for (Object[] vehicle : vehiclesList) {
                 vehicleModel.addRow(vehicle);
@@ -403,8 +411,8 @@ public class ManagerDashboard extends JFrame {
         // Listener (Vé tháng)
         monthlyCardAddBtn.addActionListener(e -> {
             String Card_ID = Card_IDField.getText().trim();
-            String Liscense_number = monthlyCardLicensePlateField.getText().trim();
-            String Vehicle_type = monthlyCardTypeCombo.getSelectedItem().toString();
+            String LicenseNumber = monthlyCardLicensePlateField.getText().trim();
+            String VehicleType = monthlyCardTypeCombo.getSelectedItem().toString();
             LocalDateTime now = LocalDateTime.now();
             LocalDateTime start = now;
             LocalDateTime end = start.plusMonths(1);
@@ -415,12 +423,12 @@ public class ManagerDashboard extends JFrame {
             String Expire_Date = end.format(dateFormatter);
             String Cost = monthlyCardFeeField.getText().trim();
 
-            if (Card_ID.isEmpty() ||Cost.isEmpty()||(Liscense_number.isEmpty() &&(Vehicle_type.equals("Xe máy")||(Vehicle_type.equals("Ô tô"))))) {
+            if (Card_ID.isEmpty() ||Cost.isEmpty()||(LicenseNumber.isEmpty() &&(VehicleType.equals("Xe máy")||(VehicleType.equals("Ô tô"))))) {
                 JOptionPane.showMessageDialog(this, "Vui lòng điền đầy đủ thông tin!", "Lỗi", JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
-            monthlyCardsList.add(new Object[]{Card_ID, Liscense_number, Vehicle_type, startDate, Expire_Date, Cost});
+            monthlyCardsList.add(new Object[]{Card_ID, LicenseNumber, VehicleType, startDate, Expire_Date, Cost});
             monthlyCardModel.setRowCount(0);
             for (Object[] card : monthlyCardsList) {
                 monthlyCardModel.addRow(card);
