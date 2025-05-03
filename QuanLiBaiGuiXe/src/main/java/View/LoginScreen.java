@@ -1,12 +1,18 @@
 package View;
+
 import Controller.*;
 import Model.*;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 
 public class LoginScreen extends JFrame {
-    private JTextField usernameField;
-    private JPasswordField passwordField;
+
+    public JTextField usernameField;
+    public JPasswordField passwordField;
+    ActionListener ctrl = new LoginScreenController(this);
+
+    public User user;
 
     public LoginScreen() {
         setTitle("Đăng nhập hệ thống quản lý bãi đỗ xe");
@@ -52,29 +58,7 @@ public class LoginScreen extends JFrame {
 
         mainPanel.add(loginPanel, BorderLayout.CENTER);
 
-        loginBtn.addActionListener(e -> {
-            String username = usernameField.getText().trim();
-            String password = new String(passwordField.getPassword()).trim();
-            String tmp = LoginScreenController.Login(username, password);
-            switch(tmp){
-                case(" "): 
-                    JOptionPane.showMessageDialog(this, "Thông tin đăng nhập không chính xác", "Lỗi", JOptionPane.ERROR_MESSAGE);
-                    break;
-                case("Nhân viên"):
-                    JOptionPane.showMessageDialog(this, "Đăng nhập thành công với vai trò " + tmp + " !", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-                    dispose();
-                    new SercurityGuardDashboard(username,tmp).setVisible(true);
-                    break;
-                case("Quản lí") :
-                    JOptionPane.showMessageDialog(this, "Đăng nhập thành công với vai trò " + tmp + " !", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-                    dispose();
-                    new ManagerDashboard(username,tmp).setVisible(true);
-                    break;
-                default:
-                    JOptionPane.showMessageDialog(this, "Hệ thống gặp lỗi", "Lỗi", JOptionPane.ERROR_MESSAGE);
-                    break;
-            }
-        });
+        loginBtn.addActionListener(ctrl);
 
         add(mainPanel);
         setVisible(true);

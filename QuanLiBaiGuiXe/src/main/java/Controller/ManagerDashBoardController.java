@@ -23,7 +23,7 @@ public class ManagerDashBoardController {
         String ticketType;
         try {
             tmp = JDBCUtil.getConnection();
-            String ThemVeXe = "\"INSERT INTO ParkingTicket (LicenseNumber, VehicleType, TicketType, EntryTime) VALUES (?, ?, ?, ?)\"";
+            String ThemVeXe = "\"INSERT INTO parkingticket (LicenseNumber, VehicleType, TicketType, EntryTime) VALUES (?, ?, ?, ?)\"";
             String TimLoaiVe = "SELECT * From monthlycard Where LicenseNumber = ?";
             state = tmp.prepareStatement(TimLoaiVe);
             state.setString(1, LicenseNumber);
