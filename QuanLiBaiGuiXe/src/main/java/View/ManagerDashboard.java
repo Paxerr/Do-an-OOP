@@ -4,41 +4,44 @@ import Controller.*;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class ManagerDashboard extends JFrame {
-    private DefaultTableModel vehicleModel;
-    private DefaultTableModel historyModel;
-    private DefaultTableModel ticketModel;
-    private DefaultTableModel monthlyCardModel;
-    private DefaultTableModel LoginlogoutModel;
-    private JTextField licensePlateField;
-    private JComboBox<String> vehicleTypeCombo;
-    private JTextField ticketTypeField;
-    private JTextField entryTimeField;
-    private JTextField entryDateField;
-    private JTable vehicleTable;
-    private JTable monthlyCardTable;
-    private JComboBox<String> ticketTypeCombo;
-    private JTextField monthlyCardInputField;
-    private JLabel vehiclePlateInput;
-    private JLabel vehiclePlateInputLabel;
-    private JTextField vehiclePlateInputField;
-    private JLabel monthlyCardInputLabel;
-    private JTextField Card_IDField;
-    private JTextField monthlyCardLicensePlateField;
-    private JComboBox<String> monthlyCardTypeCombo;
-    private JTextField monthlyCardStartDateField;
-    private JTextField monthlyCardEndDateField;
-    private JTextField monthlyCardFeeField;
-    private ArrayList<Object[]> personsList;
-    private ArrayList<Object[]> vehiclesList;
-    private ArrayList<Object[]> historyList;
-    private ArrayList<Object[]> ticketsList;
-    private ArrayList<Object[]> monthlyCardsList;
-    private ArrayList<Object[]> LoginlogoutsList;
+    public DefaultTableModel vehicleModel;
+    public DefaultTableModel historyModel;
+    public DefaultTableModel ticketModel;
+    public DefaultTableModel monthlyCardModel;
+    public DefaultTableModel LoginlogoutModel;
+    public JTextField licensePlateField;
+    public JComboBox<String> vehicleTypeCombo;
+    public JTextField ticketTypeField;
+    public JTextField entryTimeField;
+    public JTextField entryDateField;
+    public JTable vehicleTable;
+    public JTable monthlyCardTable;
+    public JComboBox<String> ticketTypeCombo;
+    public JTextField monthlyCardInputField;
+    public JLabel vehiclePlateInput;
+    public JLabel vehiclePlateInputLabel;
+    public JTextField vehiclePlateInputField;
+    public JLabel monthlyCardInputLabel;
+    public JTextField Card_IDField;
+    public JTextField monthlyCardLicensePlateField;
+    public JComboBox<String> monthlyCardTypeCombo;
+    public JTextField monthlyCardStartDateField;
+    public JTextField monthlyCardEndDateField;
+    public JTextField monthlyCardFeeField;
+    public ArrayList<Object[]> personsList;
+    public ArrayList<Object[]> vehiclesList;    
+    public ArrayList<Object[]> historyList;
+    public ArrayList<Object[]> ticketsList;
+    public ArrayList<Object[]> monthlyCardsList;
+    public ArrayList<Object[]> LoginlogoutsList;
+    
+    ActionListener MD = new ManagerDashBoardController(this);
     
     public class CustomOptionPane {
     public static void showMessage(String message, String title, String buttonText) {
@@ -362,7 +365,8 @@ public class ManagerDashboard extends JFrame {
         });
 
         // Listener (Quản lý xe)
-        vehicleAddBtn.addActionListener(e -> {
+        vehicleAddBtn.addActionListener(ctrl);
+ll
             String LicenseNumber = vehiclePlateInputField.getText().trim();
             String VehicleType = vehicleTypeCombo.getSelectedItem().toString();
 //            String ticketType =" ";
@@ -406,7 +410,7 @@ public class ManagerDashboard extends JFrame {
             vehiclePlateInputField.setText("");
             
             monthlyCardInputField.setText("");
-        });
+ll
 
         // Listener (Vé tháng)
         monthlyCardAddBtn.addActionListener(e -> {

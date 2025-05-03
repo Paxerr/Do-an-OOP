@@ -7,11 +7,10 @@ package Model;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class ParkingTicket {
+public class ParkingTicket extends Vehicle{
     private int ticketId;
     private LocalDateTime entryTime;
     private LocalDateTime timeOut;
-    private Vehicle vehicle;
     private String located;
 
     public int getTicketId() {
@@ -25,27 +24,7 @@ public class ParkingTicket {
     public LocalDateTime getTimeOut() {
         return timeOut;
     }
-
-    public void setTimeOut(LocalDateTime timeOut) {
-        this.timeOut = LocalDateTime.now();
-    }
-
-    public void setEntryTime(LocalDateTime entryTime) {
-        this.entryTime = LocalDateTime.now();
-    }
-
-    public Vehicle getVehicle() {
-        return vehicle;
-    }
-
-    public String getLocated() {
-        return located;
-    }
-
-    public void setLocated(String located) {
-        this.located = located;
-    }
-
+ 
     public int charge() {
         if (entryTime == null || timeOut == null) {
             System.out.println("Lỗi: Chưa có thời gian vào hoặc thời gian ra.");
