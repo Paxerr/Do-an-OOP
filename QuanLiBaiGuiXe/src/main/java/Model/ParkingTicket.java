@@ -4,15 +4,19 @@
  */
 package Model;
 
+import DataBase.JDBCUtil;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.time.LocalDateTime;
 import java.util.List;
 
 public class ParkingTicket extends Vehicle {
 
-    private int TicketId;
+    private String TicketID;
     private String TicketType;
-    private LocalDateTime EntryTime;
-    private LocalDateTime TimeOut;
+    private String EntryTime;
+    private String TimeOut;
 
     public void setTicketType(String TicketType) {
         this.TicketType = TicketType;
@@ -22,18 +26,17 @@ public class ParkingTicket extends Vehicle {
         return TicketType;
     }
 
-    public int getTicketId() {
-        return TicketId;
+    public String getTicketID() {
+        return TicketID;
     }
 
-    public LocalDateTime getEntryTime() {
+    public String getEntryTime() {
         return EntryTime;
     }
 
-    public LocalDateTime getTimeOut() {
+    public String getTimeOut() {
         return TimeOut;
     }
-
 
     public String getVehicleType() {
         return VehicleType;
@@ -43,15 +46,15 @@ public class ParkingTicket extends Vehicle {
         return Cost;
     }
 
-    public void setTicketId(int ticketId) {
-        this.TicketId = ticketId;
+    public void setTicketID(String TicketID) {
+        this.TicketID = TicketID;
     }
 
-    public void setEntryTime(LocalDateTime entryTime) {
+    public void setEntryTime(String entryTime) {
         this.EntryTime = entryTime;
     }
 
-    public void setTimeOut(LocalDateTime timeOut) {
+    public void setTimeOut(String timeOut) {
         this.TimeOut = timeOut;
     }
 
@@ -63,19 +66,61 @@ public class ParkingTicket extends Vehicle {
         this.Cost = Cost;
     }
 
-    public int Charge() {
-        if (EntryTime == null || TimeOut == null) {
-            System.out.println("Lỗi: Chưa có thời gian vào hoặc thời gian ra.");
-            return 0;
-        }
+//    public int Charge() {
+//        if (EntryTime == null || TimeOut == null) {
+//            System.out.println("Lỗi: Chưa có thời gian vào hoặc thời gian ra.");
+//            return 0;
+//        }
+//
+//        long durationInMinutes = java.time.Duration.between(EntryTime, TimeOut).toMinutes();
+//
+//        if (durationInMinutes <= 60) {
+//            return 10000;
+//        } else {
+//            return 10000 + (int) Math.ceil((durationInMinutes - 60) / 30.0) * 5000;
+//        }
+//    }
 
-        long durationInMinutes = java.time.Duration.between(EntryTime, TimeOut).toMinutes();
-
-        if (durationInMinutes <= 60) {
-            return 10000;
-        } else {
-            return 10000 + (int) Math.ceil((durationInMinutes - 60) / 30.0) * 5000;
+    public void ParkTheVehicle() {
+        ResultSet KetQuaTruyVan = null;
+        Connection tmp = null;
+        PreparedStatement state = null;
+        try {
+            tmp = JDBCUtil.getConnection();
+            String ThemVeXe = "INSERT INTO parkingticket (TicketID, LicenseNumber, VehicleType, TicketType, EntryTime, Cost) VALUES (?, ?, ?, ?, ?, ?)";
+            String TimLoaiVe = "SELECT * From monthlycard Where LicenseNumber = ?";
+            state = tmp.prepareStatement(TimLoaiVe);
+            state.setString(1, this.LicenseNumber);
+            KetQuaTruyVan = state.executeQuery();
+            if (KetQuaTruyVan.next()) {
+                TicketType = "Vé Tháng";
+            } else {
+                TicketType = "Vé Thường";
+            }
+            this.setCost();
+            state = tmp.prepareStatement(ThemVeXe);
+            state.setString(1, TicketID);
+            state.setString(2, LicenseNumber);
+            state.setString(3, VehicleType);
+            state.setString(4, TicketType);
+            state.setString(5, EntryTime);
+            state.setString(6, Integer.toString(Cost));
+            int rowsAffected = state.executeUpdate();
+            if (!(rowsAffected > 0)) {
+                System.out.print("lỗi thêm xe");
+            }
+            if (KetQuaTruyVan != null) {
+                KetQuaTruyVan.close();
+            }
+            if (state != null) {
+                state.close();
+            }
+            if (tmp != null) {
+                tmp.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.print("lỗi!");
         }
     }
-
 }

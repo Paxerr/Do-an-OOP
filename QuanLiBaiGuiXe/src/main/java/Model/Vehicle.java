@@ -10,7 +10,7 @@ public class Vehicle {
     Vehicle() {
     }
     ;
-     private String LicenseNumber;
+    protected String LicenseNumber;
     protected String VehicleType;
     protected int Cost;
 
@@ -22,8 +22,10 @@ public class Vehicle {
         return 1;
     }
 
-    public void setCost(int Cost) {
-        this.Cost = Cost;
+    public void setCost() {
+        if(this.VehicleType.equals("Xe máy")) this.Cost = 3000;
+        else if(this.VehicleType.equals("Ô tô")) this.Cost = 5000;
+        else System.out.print("Lỗi set Cost");
     }
 
     public int getCost() {
@@ -41,47 +43,4 @@ public class Vehicle {
     public String getVehicleType() {
         return VehicleType;
     }
-
-    public void ParkTheVehicle() {
-        ResultSet KetQuaTruyVan = null;
-        Connection tmp = null;
-        PreparedStatement state = null;
-        try {
-            tmp = JDBCUtil.getConnection();
-            String ThemVeXe = "\"INSERT INTO parkingticket (LicenseNumber, VehicleType, TicketType, EntryTime) VALUES (?, ?, ?, ?)\"";
-            String TimLoaiVe = "SELECT * From monthlycard Where LicenseNumber = ?";
-            state = tmp.prepareStatement(TimLoaiVe);
-            state.setString(1, LicenseNumber);
-            KetQuaTruyVan = state.executeQuery();
-            if (KetQuaTruyVan.next()) {
-                TicketType = "Vé Tháng";
-            } else {
-
-                TicketType = "Vé Thường";
-            }
-            state = tmp.prepareStatement(ThemVeXe);
-            state.setString(1, LicenseNumber);
-            state.setString(2, VehicleType);
-            state.setString(3, TicketType);
-            state.setString(4, EntryTime);
-            int rowsAffected = state.executeUpdate();
-            if (!(rowsAffected > 0)) {
-                return "error";
-            }
-            if (KetQuaTruyVan != null) {
-                KetQuaTruyVan.close();
-            }
-            if (state != null) {
-                state.close();
-            }
-            if (tmp != null) {
-                tmp.close();
-            }
-            return TicketType;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "error";
-        }
-    }
-}
 }

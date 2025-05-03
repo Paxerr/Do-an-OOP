@@ -41,7 +41,7 @@ public class ManagerDashboard extends JFrame {
     public ArrayList<Object[]> monthlyCardsList;
     public ArrayList<Object[]> LoginlogoutsList;
     
-    ActionListener MD = new ManagerDashBoardController(this);
+    ActionListener ctrl = new ManagerDashBoardController(this);
     
     public class CustomOptionPane {
     public static void showMessage(String message, String title, String buttonText) {
@@ -366,51 +366,49 @@ public class ManagerDashboard extends JFrame {
 
         // Listener (Quản lý xe)
         vehicleAddBtn.addActionListener(ctrl);
-ll
-            String LicenseNumber = vehiclePlateInputField.getText().trim();
-            String VehicleType = vehicleTypeCombo.getSelectedItem().toString();
-//            String ticketType =" ";
-
-            
-            LocalDateTime now = LocalDateTime.now();
-            DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("M/d/yyyy");
-            DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("h:mm a");
-            
-            String entryDate = now.format(dateFormatter);
-            String entryTime = now.format(timeFormatter);
-            
-            entryDateField.setText(entryDate);
-            entryTimeField.setText(entryTime);
-
-            String Ticket_id = "ID" + String.format("%04d", vehiclesList.size() + 1);
-            String EntryTime = entryDate + " " + entryTime;
-            
-            if (LicenseNumber.isEmpty() &&(VehicleType.equals("Xe máy")||(VehicleType.equals("Ô tô")))) {
-                JOptionPane.showMessageDialog(this, "Vui lòng điền đầy đủ thông tin!", "Lỗi", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-            
- 
-            String TicketType = ManagerDashBoardController.ThemXe(LicenseNumber, VehicleType, EntryTime);
-            if(TicketType == "error") 
-                JOptionPane.showMessageDialog(this, "Lỗi hệ thống!", "Lỗi", JOptionPane.ERROR_MESSAGE);
-            
-            ticketTypeField.setText(TicketType);
-            
-            vehiclesList.add(new Object[]{Ticket_id, LicenseNumber, VehicleType, TicketType, EntryTime});
-            vehicleModel.setRowCount(0);
-            for (Object[] vehicle : vehiclesList) {
-                vehicleModel.addRow(vehicle);
-            }
-
-            JOptionPane.showMessageDialog(this, "Thêm xe thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-            
-            CustomOptionPane.showMessage("Bạn có muốn in vé không?", "Thông báo", "In vé ngay");
-
-            vehiclePlateInputField.setText("");
-            
-            monthlyCardInputField.setText("");
-ll
+//            String LicenseNumber = vehiclePlateInputField.getText().trim();
+//            String VehicleType = vehicleTypeCombo.getSelectedItem().toString();
+////            String ticketType =" ";
+//
+//            
+//            LocalDateTime now = LocalDateTime.now();
+//            DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("M/d/yyyy");
+//            DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("h:mm a");
+//            
+//            String entryDate = now.format(dateFormatter);
+//            String entryTime = now.format(timeFormatter);
+//            
+//            entryDateField.setText(entryDate);
+//            entryTimeField.setText(entryTime);
+//
+//            String Ticket_id = "ID" + String.format("%04d", vehiclesList.size() + 1);
+//            String EntryTime = entryDate + " " + entryTime;
+//            
+//            if (LicenseNumber.isEmpty() &&(VehicleType.equals("Xe máy")||(VehicleType.equals("Ô tô")))) {
+//                JOptionPane.showMessageDialog(this, "Vui lòng điền đầy đủ thông tin!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+//                return;
+//            }
+//            
+// 
+//            String TicketType = ManagerDashBoardController.ThemXe(LicenseNumber, VehicleType, EntryTime);
+//            if(TicketType == "error") 
+//                JOptionPane.showMessageDialog(this, "Lỗi hệ thống!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+//            
+//            ticketTypeField.setText(TicketType);
+//            
+//            vehiclesList.add(new Object[]{Ticket_id, LicenseNumber, VehicleType, TicketType, EntryTime});
+//            vehicleModel.setRowCount(0);
+//            for (Object[] vehicle : vehiclesList) {
+//                vehicleModel.addRow(vehicle);
+//            }
+//
+//            JOptionPane.showMessageDialog(this, "Thêm xe thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+//            
+//            CustomOptionPane.showMessage("Bạn có muốn in vé không?", "Thông báo", "In vé ngay");
+//
+//            vehiclePlateInputField.setText("");
+//            
+//            monthlyCardInputField.setText("");
 
         // Listener (Vé tháng)
         monthlyCardAddBtn.addActionListener(e -> {

@@ -61,28 +61,22 @@ public class ManagerDashBoardController implements ActionListener {
                 JOptionPane.showMessageDialog(MD, "Lỗi hệ thống!", "Lỗi", JOptionPane.ERROR_MESSAGE);
             }
 
-            ticketTypeField.setText(TicketType);
+            MD.ticketTypeField.setText(Ticket.getTicketType());
 
-            vehiclesList.add(new Object[]{Ticket_id, LicenseNumber, VehicleType, TicketType, EntryTime});
-            vehicleModel.setRowCount(0);
-            for (Object[] vehicle : vehiclesList) {
-                vehicleModel.addRow(vehicle);
+            MD.vehiclesList.add(new Object[]{Ticket.getTicketID(), Ticket.getLicenseNumber(), Ticket.getVehicleType(), Ticket.getTicketType(), Ticket.getEntryTime()});
+            MD.vehicleModel.setRowCount(0);
+            for (Object[] vehicle : MD.vehiclesList){
+                MD.vehicleModel.addRow(vehicle);
             }
 
-            JOptionPane.showMessageDialog(this, "Thêm xe thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(MD, "Thêm xe thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
 
             ManagerDashboard.CustomOptionPane.showMessage("Bạn có muốn in vé không?", "Thông báo", "In vé ngay");
 
-            vehiclePlateInputField.setText("");
+            MD.vehiclePlateInputField.setText("");
 
-            monthlyCardInputField.setText("");
+            MD.monthlyCardInputField.setText("");
         }
             
     }
-
-    public static String ThemXe(String LicenseNumber, String VehicleType, String EntryTime) {
-
-    }
-;
-
 }
