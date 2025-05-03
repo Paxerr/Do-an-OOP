@@ -25,10 +25,10 @@ public class ManagerDashBoardController implements ActionListener {
     private ManagerDashboard MD;
 
     public ManagerDashBoardController(ManagerDashboard ctrl) {
-        this.MD = MD;
+        this.MD = ctrl;
     }
 
-    ParkingTicket Ticket;
+    ParkingTicket Ticket = new ParkingTicket();
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -48,16 +48,22 @@ public class ManagerDashBoardController implements ActionListener {
             MD.entryDateField.setText(entryDate);
             MD.entryTimeField.setText(entryTime);
 
-            String TicketID = "ID" + String.format("%04d", MD.vehiclesList.size() + 1);
-            String EntryTime = entryDate + " " + entryTime;
+            Ticket.setTicketID("ID" + String.format("%04d", MD.vehiclesList.size() + 1));
+            Ticket.setEntryTime(entryDate + " " + entryTime);
+            Ticket.setLicenseNumber(LicenseNumber);
+            Ticket.setVehicleType(VehicleType);
+            
 
-            if (LicenseNumber.isEmpty() && (VehicleType.equals("Xe máy") || (VehicleType.equals("Ô tô")))) {
+            String rac = Ticket.getLicenseNumber();
+            String rac1 = Ticket.getVehicleType();
+            if (rac.isEmpty() && (rac1.equals("Xe máy") || (rac1.equals("Ô tô")))) {
                 JOptionPane.showMessageDialog(MD, "Vui lòng điền đầy đủ thông tin!", "Lỗi", JOptionPane.ERROR_MESSAGE);
                 return;
             }
-
-//            String TicketType = ManagerDashBoardController.ThemXe(LicenseNumber, VehicleType, EntryTime);
-            if (Ticket.getTicketType() == "error") {
+            
+            Ticket.ParkTheVehicle();
+            
+            if ("error".equals(Ticket.getTicketType())) {
                 JOptionPane.showMessageDialog(MD, "Lỗi hệ thống!", "Lỗi", JOptionPane.ERROR_MESSAGE);
             }
 
@@ -65,18 +71,18 @@ public class ManagerDashBoardController implements ActionListener {
 
             MD.vehiclesList.add(new Object[]{Ticket.getTicketID(), Ticket.getLicenseNumber(), Ticket.getVehicleType(), Ticket.getTicketType(), Ticket.getEntryTime()});
             MD.vehicleModel.setRowCount(0);
-            for (Object[] vehicle : MD.vehiclesList){
+            for (Object[] vehicle : MD.vehiclesList) {
                 MD.vehicleModel.addRow(vehicle);
             }
 
             JOptionPane.showMessageDialog(MD, "Thêm xe thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
 
             ManagerDashboard.CustomOptionPane.showMessage("Bạn có muốn in vé không?", "Thông báo", "In vé ngay");
-
-            MD.vehiclePlateInputField.setText("");
-
-            MD.monthlyCardInputField.setText("");
-        }
             
+            MD.vehiclePlateInputField.setText("");
+            MD.monthlyCardInputField.setText("");
+
+        }
+
     }
 }

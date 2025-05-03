@@ -88,7 +88,7 @@ public class ParkingTicket extends Vehicle {
         try {
             tmp = JDBCUtil.getConnection();
             String ThemVeXe = "INSERT INTO parkingticket (TicketID, LicenseNumber, VehicleType, TicketType, EntryTime, Cost) VALUES (?, ?, ?, ?, ?, ?)";
-            String TimLoaiVe = "SELECT * From monthlycard Where LicenseNumber = ?";
+            String TimLoaiVe = "SELECT * From monthlyparking Where LicenseNumber = ?";
             state = tmp.prepareStatement(TimLoaiVe);
             state.setString(1, this.LicenseNumber);
             KetQuaTruyVan = state.executeQuery();
@@ -106,9 +106,6 @@ public class ParkingTicket extends Vehicle {
             state.setString(5, EntryTime);
             state.setString(6, Integer.toString(Cost));
             int rowsAffected = state.executeUpdate();
-            if (!(rowsAffected > 0)) {
-                System.out.print("lỗi thêm xe");
-            }
             if (KetQuaTruyVan != null) {
                 KetQuaTruyVan.close();
             }
@@ -120,7 +117,7 @@ public class ParkingTicket extends Vehicle {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.print("lỗi!");
+            this.TicketType = "error";
         }
     }
 }
