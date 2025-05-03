@@ -7,36 +7,75 @@ package Model;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class ParkingTicket extends Vehicle{
-    private int ticketId;
-    private LocalDateTime entryTime;
-    private LocalDateTime timeOut;
-    private String located;
+public class ParkingTicket extends Vehicle {
+
+    private int TicketId;
+    private String TicketType;
+    private LocalDateTime EntryTime;
+    private LocalDateTime TimeOut;
+
+    public void setTicketType(String TicketType) {
+        this.TicketType = TicketType;
+    }
+
+    public String getTicketType() {
+        return TicketType;
+    }
 
     public int getTicketId() {
-        return ticketId;
+        return TicketId;
     }
 
     public LocalDateTime getEntryTime() {
-        return entryTime;
+        return EntryTime;
     }
 
     public LocalDateTime getTimeOut() {
-        return timeOut;
+        return TimeOut;
     }
- 
-    public int charge() {
-        if (entryTime == null || timeOut == null) {
+
+
+    public String getVehicleType() {
+        return VehicleType;
+    }
+
+    public int getCost() {
+        return Cost;
+    }
+
+    public void setTicketId(int ticketId) {
+        this.TicketId = ticketId;
+    }
+
+    public void setEntryTime(LocalDateTime entryTime) {
+        this.EntryTime = entryTime;
+    }
+
+    public void setTimeOut(LocalDateTime timeOut) {
+        this.TimeOut = timeOut;
+    }
+
+    public void setVehicleType(String VehicleType) {
+        this.VehicleType = VehicleType;
+    }
+
+    public void setCost(int Cost) {
+        this.Cost = Cost;
+    }
+
+    public int Charge() {
+        if (EntryTime == null || TimeOut == null) {
             System.out.println("Lỗi: Chưa có thời gian vào hoặc thời gian ra.");
             return 0;
         }
 
-        long durationInMinutes = java.time.Duration.between(entryTime, timeOut).toMinutes();
-        // Đây là một ví dụ đơn giản về cách tính phí, bạn có thể điều chỉnh theo logic của mình
+        long durationInMinutes = java.time.Duration.between(EntryTime, TimeOut).toMinutes();
+
         if (durationInMinutes <= 60) {
-            return 10000; // Ví dụ: 10,000 VNĐ cho giờ đầu tiên
+            return 10000;
         } else {
-            return 10000 + (int) Math.ceil((durationInMinutes - 60) / 30.0) * 5000; // Ví dụ: thêm 5,000 VNĐ cho mỗi 30 phút tiếp theo
+            return 10000 + (int) Math.ceil((durationInMinutes - 60) / 30.0) * 5000;
         }
     }
+
 }
