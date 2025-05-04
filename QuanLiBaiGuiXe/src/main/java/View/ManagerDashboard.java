@@ -250,7 +250,7 @@ public class ManagerDashboard extends JFrame {
 
         // Tab Nhân viên
         JPanel LoginlogoutTab = new JPanel(new BorderLayout());
-        String[] LoginlogoutColumns = {"Mã NV", "Họ tên", "Chức vụ", "Login", "Logout"};
+        String[] LoginlogoutColumns = {"STT","Mã NV", "Họ tên", "Chức vụ", "Login", "Logout"};
         LoginlogoutModel = new DefaultTableModel(LoginlogoutColumns, 0);
         JTable LoginlogoutTable = new JTable(LoginlogoutModel);
         JScrollPane LoginlogoutTableScroll = new JScrollPane(LoginlogoutTable);
@@ -268,25 +268,25 @@ public class ManagerDashboard extends JFrame {
         JPanel vehicleButtonPanel = new JPanel(new FlowLayout());
         JButton vehicleAddBtn = new JButton("Thêm xe");
         JButton vehicleEditBtn = new JButton("Sửa");
-        JButton vehicleDeleteBtn = new JButton("Xóa xe");
-        JButton vehicleSearchIdBtn = new JButton("Tìm kiếm theo mã");
+        
+        
         JButton vehicleSearchAllBtn = new JButton("Tìm kiếm xe");
         JButton vehicleConfirmExitBtn = new JButton("Xác nhận rời bãi");
         JButton vehicleRegisterMonthlyBtn = new JButton("Đăng ký vé tháng");
         JButton vehiclePrintBtn = new JButton("In vé");
         vehicleButtonPanel.add(vehicleAddBtn);
         vehicleButtonPanel.add(vehicleEditBtn);
-        vehicleButtonPanel.add(vehicleDeleteBtn);
-        vehicleButtonPanel.add(vehicleSearchIdBtn);
+        
+        
         vehicleButtonPanel.add(vehicleSearchAllBtn);
         vehicleButtonPanel.add(vehicleConfirmExitBtn);
         vehicleButtonPanel.add(vehicleRegisterMonthlyBtn);
         vehicleButtonPanel.add(vehiclePrintBtn);
 
         JPanel historyButtonPanel = new JPanel(new FlowLayout());
-        JButton historySearchIdBtn = new JButton("Tìm kiếm theo mã");
+        
         JButton historySearchAllBtn = new JButton("Tìm kiếm xe");
-        historyButtonPanel.add(historySearchIdBtn);
+        
         historyButtonPanel.add(historySearchAllBtn);
 
         
@@ -382,20 +382,7 @@ public class ManagerDashboard extends JFrame {
             monthlyCardFeeField.setText("");
         });
         
-        vehicleDeleteBtn.addActionListener(e -> {
-            int selectedRow = vehicleTable.getSelectedRow();
-            if (selectedRow == -1) {
-                JOptionPane.showMessageDialog(this, "Vui lòng chọn một xe để xóa!", "Lỗi", JOptionPane.ERROR_MESSAGE);
-            return;
-            }
-
-            int confirm = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn xóa xe này?", "Xác nhận xóa", JOptionPane.YES_NO_OPTION);
-            if (confirm == JOptionPane.YES_OPTION) {
-                vehiclesList.remove(selectedRow);
-                vehicleModel.removeRow(selectedRow);
-                JOptionPane.showMessageDialog(this, "Xóa xe thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-    }
-    });
+        
 
         manageTab.addActionListener(e -> {
             setVisible(false);
