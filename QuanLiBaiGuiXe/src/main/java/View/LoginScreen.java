@@ -15,7 +15,7 @@ public class LoginScreen extends JFrame {
     public User user;
 
     public LoginScreen() {
-        setTitle("Đăng nhập hệ thống quản lý bãi đỗ xe");
+        setTitle("Đăng nhập");
         setSize(400, 300);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
