@@ -33,7 +33,7 @@ public class ManagerDashBoardController implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         String cmd = e.getActionCommand();
-        if (cmd.equals("Thêm")) {
+        if (cmd.equals("Thêm xe")) {
 
             String LicenseNumber = MD.vehiclePlateInputField.getText().trim();
             String VehicleType = MD.vehicleTypeCombo.getSelectedItem().toString();

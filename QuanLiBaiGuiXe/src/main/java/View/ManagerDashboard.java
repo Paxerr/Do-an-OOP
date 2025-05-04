@@ -348,47 +348,8 @@ public class ManagerDashboard extends JFrame {
             }
         });
 
-        // Listener (Quản lý xe)
-//        vehicleAddBtn.addActionListener(ctrl);
-//            String LicenseNumber = vehiclePlateInputField.getText().trim();
-//            String VehicleType = vehicleTypeCombo.getSelectedItem().toString();
-////            String TicketType =" ";
-//
-//            
-//            LocalDateTime now = LocalDateTime.now();
-//            DateTimeFormatter formatter = DateTimeFormatter.ofPattern(" HH:mm dd-MM-yyyy");
-//            String EntryTime = now.format(formatter);
-//            
-//            String TicketID = "ID" + String.format("%04d", vehiclesList.size() + 1);
-//            
-//            
-//            if (LicenseNumber.isEmpty() &&(VehicleType.equals("Xe máy")||(VehicleType.equals("Ô tô")))) {
-//                JOptionPane.showMessageDialog(this, "Vui lòng điền đầy đủ thông tin!", "Lỗi", JOptionPane.ERROR_MESSAGE);
-//                return;
-//            }
-//            
-// 
-//            String TicketType = ManagerDashBoardController.ThemXe(LicenseNumber, VehicleType, EntryTime);
-//            if(TicketType == "error") 
-//                JOptionPane.showMessageDialog(this, "Lỗi hệ thống!", "Lỗi", JOptionPane.ERROR_MESSAGE);
-//            
-//            ticketTypeField.setText(TicketType);
-//            
-//            vehiclesList.add(new Object[]{TicketID, LicenseNumber, VehicleType, TicketType, EntryTime});
-//            vehicleModel.setRowCount(0);
-//            for (Object[] vehicle : vehiclesList) {
-//                vehicleModel.addRow(vehicle);
-//            }
-//
-//            JOptionPane.showMessageDialog(this, "Thêm xe thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-//            
-//            CustomOptionPane.showMessage("Bạn có muốn in vé không?", "Thông báo", "In vé ngay");
-//
-//            vehiclePlateInputField.setText("");
-//            
-//            monthlyCardInputField.setText("");
-
-        // Listener (Vé tháng)
+        vehicleAddBtn.addActionListener(ctrl);
+       // Listener (Vé tháng)
         monthlyCardAddBtn.addActionListener(e -> {
             String CardID = Card_IDField.getText().trim();
             String LicenseNumber = monthlyCardLicensePlateField.getText().trim();
