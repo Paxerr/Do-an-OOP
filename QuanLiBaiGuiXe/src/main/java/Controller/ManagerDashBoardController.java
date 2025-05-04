@@ -33,6 +33,7 @@ public class ManagerDashBoardController implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         String cmd = e.getActionCommand();
+        
         if (cmd.equals("Thêm xe")) {
 
             String LicenseNumber = MD.vehiclePlateInputField.getText().trim();
@@ -77,5 +78,29 @@ public class ManagerDashBoardController implements ActionListener {
 
         }
 
+        if(cmd.equals("Tìm kiếm xe")){
+            
+            String LicenseNumber = MD.vehiclePlateInputField.getText().trim();
+            
+            Ticket.setLicenseNumber(LicenseNumber);          
+            
+            Ticket.ParkTheVehicle();            
+
+            MD.ticketTypeField.setText(Ticket.getTicketType());
+
+            MD.vehiclesList.add(new Object[]{Ticket.getTicketID(), Ticket.getLicenseNumber(), Ticket.getVehicleType(), Ticket.getTicketType(), Ticket.getEntryTime()});
+            MD.vehicleModel.setRowCount(0);
+            for (Object[] vehicle : MD.vehiclesList) {
+                MD.vehicleModel.addRow(vehicle);
+            }
+
+            JOptionPane.showMessageDialog(MD, "Thêm xe thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+
+            ManagerDashboard.CustomOptionPane.showMessage("Bạn có muốn in vé không?", "Thông báo", "In vé ngay");
+            
+            MD.vehiclePlateInputField.setText("");
+            MD.monthlyCardInputField.setText("");
+
+        }
     }
 }

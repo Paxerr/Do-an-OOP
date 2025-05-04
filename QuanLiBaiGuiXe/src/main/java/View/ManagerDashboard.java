@@ -289,7 +289,7 @@ public class ManagerDashboard extends JFrame {
         
         historyButtonPanel.add(historySearchAllBtn);
 
-        
+        vehicleSearchAllBtn.addActionListener(ctrl);
 
         JPanel monthlyCardButtonPanel = new JPanel(new FlowLayout());
         JButton monthlyCardSearchIdBtn = new JButton("Tìm kiếm theo mã");
