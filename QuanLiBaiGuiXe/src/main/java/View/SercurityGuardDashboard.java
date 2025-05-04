@@ -238,7 +238,7 @@ public class SercurityGuardDashboard extends JFrame {
 
         // Tab Nhân viên
         JPanel LoginlogoutTab = new JPanel(new BorderLayout());
-        String[] LoginlogoutColumns = {"STTSTT","Mã NV", "Họ tên", "Chức vụ", "Login", "Logout"};
+        String[] LoginlogoutColumns = {"STT","Mã NV", "Họ tên", "Chức vụ", "Login", "Logout"};
         LoginlogoutModel = new DefaultTableModel(LoginlogoutColumns, 0);
         JTable LoginlogoutTable = new JTable(LoginlogoutModel);
         JScrollPane LoginlogoutTableScroll = new JScrollPane(LoginlogoutTable);
@@ -256,6 +256,7 @@ public class SercurityGuardDashboard extends JFrame {
         JPanel vehicleButtonPanel = new JPanel(new FlowLayout());
         JButton vehicleAddBtn = new JButton("Thêm xe");
         JButton vehicleEditBtn = new JButton("Sửa");
+        
         
         JButton vehicleSearchAllBtn = new JButton("Tìm kiếm xe");
         JButton vehicleConfirmExitBtn = new JButton("Xác nhận rời bãi");
