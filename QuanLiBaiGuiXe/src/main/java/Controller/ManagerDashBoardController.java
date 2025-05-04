@@ -38,18 +38,10 @@ public class ManagerDashBoardController implements ActionListener {
             String LicenseNumber = MD.vehiclePlateInputField.getText().trim();
             String VehicleType = MD.vehicleTypeCombo.getSelectedItem().toString();
 
-            LocalDateTime now = LocalDateTime.now();
-            DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("M/d/yyyy");
-            DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("h:mm a");
-
-            String entryDate = now.format(dateFormatter);
-            String entryTime = now.format(timeFormatter);
-
-            MD.entryDateField.setText(entryDate);
-            MD.entryTimeField.setText(entryTime);
+            
 
             Ticket.setTicketID("ID" + String.format("%04d", MD.vehiclesList.size() + 1));
-            Ticket.setEntryTime(entryDate + " " + entryTime);
+            
             Ticket.setLicenseNumber(LicenseNumber);
             Ticket.setVehicleType(VehicleType);
             
