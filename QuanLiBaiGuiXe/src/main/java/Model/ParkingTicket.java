@@ -13,7 +13,7 @@ import java.util.List;
 
 public class ParkingTicket extends Vehicle {
 
-    private String TicketID;
+    private int TicketID;
     private String TicketType;
     private String EntryTime;
     private String TimeOut;
@@ -26,7 +26,7 @@ public class ParkingTicket extends Vehicle {
         return TicketType;
     }
 
-    public String getTicketID() {
+    public int getTicketID() {
         return TicketID;
     }
 
@@ -46,7 +46,7 @@ public class ParkingTicket extends Vehicle {
         return Cost;
     }
 
-    public void setTicketID(String TicketID) {
+    public void setTicketID(int TicketID) {
         this.TicketID = TicketID;
     }
 
@@ -87,6 +87,7 @@ public class ParkingTicket extends Vehicle {
         PreparedStatement state = null;
         try {
             tmp = JDBCUtil.getConnection();
+            String LayID = "SELECT * From ParkingTicket ORDER BY TicketID DESC";
             String ThemVeXe = "INSERT INTO parkingticket (TicketID, LicenseNumber, VehicleType, TicketType, EntryTime, Cost) VALUES (?, ?, ?, ?, ?, ?)";
             String TimLoaiVe = "SELECT * From monthlyparking Where LicenseNumber = ?";
             state = tmp.prepareStatement(TimLoaiVe);
@@ -98,8 +99,16 @@ public class ParkingTicket extends Vehicle {
                 TicketType = "Vé Thường";
             }
             this.setCost();
+            
+            state = tmp.prepareStatement(LayID);
+            KetQuaTruyVan = state.executeQuery();
+            if(KetQuaTruyVan.next())
+                this.TicketID = KetQuaTruyVan.getInt("TicketID") + 1;
+            else
+                this.TicketID = 0;
+            
             state = tmp.prepareStatement(ThemVeXe);
-            state.setString(1, TicketID);
+            state.setString(1, Integer.toString(this.TicketID));
             state.setString(2, LicenseNumber);
             state.setString(3, VehicleType);
             state.setString(4, TicketType);
