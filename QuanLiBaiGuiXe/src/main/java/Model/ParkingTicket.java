@@ -106,14 +106,15 @@ public class ParkingTicket extends Vehicle {
                 this.TicketID = KetQuaTruyVan.getInt("TicketID") + 1;
             else
                 this.TicketID = 0;
-            
+             
+            if(this.VehicleType.equals("Xe đạp")) this.LicenseNumber = this.TicketID + "";
             state = tmp.prepareStatement(ThemVeXe);
             state.setString(1, Integer.toString(this.TicketID));
-            state.setString(2, LicenseNumber);
-            state.setString(3, VehicleType);
-            state.setString(4, TicketType);
-            state.setString(5, EntryTime);
-            state.setString(6, Integer.toString(Cost));
+            state.setString(2, this.LicenseNumber);
+            state.setString(3, this.VehicleType);
+            state.setString(4, this.TicketType);
+            state.setString(5, this.EntryTime);
+            state.setString(6, Integer.toString(this.Cost));
             int rowsAffected = state.executeUpdate();
             if (KetQuaTruyVan != null) {
                 KetQuaTruyVan.close();
@@ -124,6 +125,34 @@ public class ParkingTicket extends Vehicle {
             if (tmp != null) {
                 tmp.close();
             }
+        } catch (Exception e) {
+            e.printStackTrace();
+            this.TicketType = "error";
+        }
+    }
+    
+    public void SearchVehicle(){
+        ResultSet KetQuaTruyVan = null;
+        Connection tmp = null;
+        PreparedStatement state = null;
+        try {
+            tmp = JDBCUtil.getConnection();
+            String TimKiemXe = "SELECT * From parkingticket WHERE LicenseNumber = ?";
+            state = tmp.prepareStatement(TimKiemXe);
+            state.setString(1, this.LicenseNumber);
+            KetQuaTruyVan = state.executeQuery();
+            
+            
+            if (KetQuaTruyVan != null) {
+                KetQuaTruyVan.close();
+            }
+            if (state != null) {
+                state.close();
+            }
+            if (tmp != null) {
+                tmp.close();
+            }
+            
         } catch (Exception e) {
             e.printStackTrace();
             this.TicketType = "error";
