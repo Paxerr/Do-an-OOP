@@ -152,15 +152,17 @@ public class ParkingTicket extends Vehicle {
         Connection tmp = null;
         PreparedStatement state = null;
         try {
-            String TimKiemXe;
+            String TimKiemXe = null;
             tmp = JDBCUtil.getConnection();
             if(TypeOfSearch.equals("Tìm kiếm xe")){
                 TimKiemXe = "SELECT * From parkingticket WHERE LicenseNumber = ? AND TimeOut = ?";
             }
-            else{
+            else if(TypeOfSearch.equals("Tìm lịch sử gửi xe")){
                 TimKiemXe = "SELECT * From parkingticket WHERE LicenseNumber = ?";
-
             }
+            else if(TypeOfSearch.equals("Refesh")) {
+                TimKiemXe = "SELECT * From parkingticket WHERE LicenseNumber = ?";
+            };
             state = tmp.prepareStatement(TimKiemXe);
             state.setString(1, this.LicenseNumber);
             state.setString(2, "Đang gửi");
@@ -191,7 +193,7 @@ public class ParkingTicket extends Vehicle {
             e.printStackTrace();
             this.TicketType = "error";
         }
-        
         return ResultSearch;
     }
+    
 }
