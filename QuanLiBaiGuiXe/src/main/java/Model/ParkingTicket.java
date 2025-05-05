@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ParkingTicket extends Vehicle {
@@ -18,6 +19,19 @@ public class ParkingTicket extends Vehicle {
     private String EntryTime;
     private String TimeOut;
 
+    public ParkingTicket(){
+        
+    };
+    public ParkingTicket(int TicketID, String LicenseNumber,String VehicleType,String TicketType,String EntryTime,String TimeOut,int Cost){
+        this.Cost = Cost;
+        this.EntryTime = EntryTime;
+        this.VehicleType = VehicleType;
+        this.LicenseNumber = LicenseNumber;
+        this.TicketID = TicketID;
+        this.TimeOut = TimeOut;
+        this.TicketType = TicketType;
+    }
+    
     public void setTicketType(String TicketType) {
         this.TicketType = TicketType;
     }
@@ -88,7 +102,7 @@ public class ParkingTicket extends Vehicle {
         try {
             tmp = JDBCUtil.getConnection();
             String LayID = "SELECT * From ParkingTicket ORDER BY TicketID DESC";
-            String ThemVeXe = "INSERT INTO parkingticket (TicketID, LicenseNumber, VehicleType, TicketType, EntryTime, Cost) VALUES (?, ?, ?, ?, ?, ?)";
+            String ThemVeXe = "INSERT INTO parkingticket (TicketID, LicenseNumber, VehicleType, TicketType, EntryTime, Cost, TimeOut) VALUES (?, ?, ?, ?, ?, ?, ?)";
             String TimLoaiVe = "SELECT * From monthlyparking Where LicenseNumber = ?";
             state = tmp.prepareStatement(TimLoaiVe);
             state.setString(1, this.LicenseNumber);
@@ -99,7 +113,7 @@ public class ParkingTicket extends Vehicle {
                 TicketType = "Vé Thường";
             }
             this.setCost();
-            
+            this.setTimeOut("Đang gửi");
             state = tmp.prepareStatement(LayID);
             KetQuaTruyVan = state.executeQuery();
             if(KetQuaTruyVan.next())
@@ -114,7 +128,8 @@ public class ParkingTicket extends Vehicle {
             state.setString(3, this.VehicleType);
             state.setString(4, this.TicketType);
             state.setString(5, this.EntryTime);
-            state.setString(6, Integer.toString(this.Cost));
+            state.setInt(6, this.Cost);
+            state.setString(7, this.TimeOut);
             int rowsAffected = state.executeUpdate();
             if (KetQuaTruyVan != null) {
                 KetQuaTruyVan.close();
@@ -131,20 +146,39 @@ public class ParkingTicket extends Vehicle {
         }
     }
     
-    public void SearchVehicle(){
-        ResultSet KetQuaTruyVan = null;
+    public List<ParkingTicket> SearchVehicle(String TypeOfSearch){
+        List<ParkingTicket> ResultSearch = new ArrayList<>();
+        ResultSet Result = null;
         Connection tmp = null;
         PreparedStatement state = null;
         try {
+            String TimKiemXe;
             tmp = JDBCUtil.getConnection();
-            String TimKiemXe = "SELECT * From parkingticket WHERE LicenseNumber = ?";
+            if(TypeOfSearch.equals("Tìm kiếm xe")){
+                TimKiemXe = "SELECT * From parkingticket WHERE LicenseNumber = ? AND TimeOut = ?";
+            }
+            else{
+                TimKiemXe = "SELECT * From parkingticket WHERE LicenseNumber = ?";
+
+            }
             state = tmp.prepareStatement(TimKiemXe);
             state.setString(1, this.LicenseNumber);
-            KetQuaTruyVan = state.executeQuery();
+            state.setString(2, "Đang gửi");
+            Result = state.executeQuery();
             
+            while (Result.next()) {
+            int TicketID = Result.getInt("TicketID");
+            String VehicleType = Result.getString("VehicleType");
+            String TicketType = Result.getString("TicketType");
+            String EntryTime = Result.getString("EntryTime");
+            String TimeOut = Result.getString("TimeOut");
+            int Cost = Result.getInt("Cost");
+            ParkingTicket t = new ParkingTicket(TicketID, this.LicenseNumber, VehicleType, TicketType, EntryTime, TimeOut, Cost);
+            ResultSearch.add(t);
+            }
             
-            if (KetQuaTruyVan != null) {
-                KetQuaTruyVan.close();
+            if (Result != null) {
+                Result.close();
             }
             if (state != null) {
                 state.close();
@@ -152,10 +186,12 @@ public class ParkingTicket extends Vehicle {
             if (tmp != null) {
                 tmp.close();
             }
-            
+
         } catch (Exception e) {
             e.printStackTrace();
             this.TicketType = "error";
         }
+        
+        return ResultSearch;
     }
 }

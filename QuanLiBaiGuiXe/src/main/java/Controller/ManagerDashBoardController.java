@@ -14,6 +14,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
 
 /**
@@ -33,20 +35,18 @@ public class ManagerDashBoardController implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         String cmd = e.getActionCommand();
-        
+
         if (cmd.equals("Thêm xe")) {
 
             String LicenseNumber = MD.vehiclePlateInputField.getText().trim();
             String VehicleType = MD.vehicleTypeCombo.getSelectedItem().toString();
 
-            
             LocalDateTime now = LocalDateTime.now();
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern(" HH:mm MM-dd-yyyy");                  
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern(" HH:mm MM-dd-yyyy");
             Ticket.setEntryTime(now.format(formatter));
-            
+
             Ticket.setLicenseNumber(LicenseNumber);
             Ticket.setVehicleType(VehicleType);
-            
 
             String rac = Ticket.getLicenseNumber();
             String rac1 = Ticket.getVehicleType();
@@ -54,9 +54,9 @@ public class ManagerDashBoardController implements ActionListener {
                 JOptionPane.showMessageDialog(MD, "Vui lòng điền đầy đủ thông tin!", "Lỗi", JOptionPane.ERROR_MESSAGE);
                 return;
             }
-            
+
             Ticket.ParkTheVehicle();
-            
+
             if ("error".equals(Ticket.getTicketType())) {
                 JOptionPane.showMessageDialog(MD, "Lỗi hệ thống!", "Lỗi", JOptionPane.ERROR_MESSAGE);
             }
@@ -71,36 +71,37 @@ public class ManagerDashBoardController implements ActionListener {
 
             JOptionPane.showMessageDialog(MD, "Thêm xe thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
 
-            ManagerDashboard.CustomOptionPane.showMessage("Bạn có muốn in vé không?", "Thông báo", "In vé ngay");
-            
-            MD.vehiclePlateInputField.setText("");
-            MD.monthlyCardInputField.setText("");
-
-        }
-
-        if(cmd.equals("Tìm kiếm xe")){
-            
-            String LicenseNumber = MD.vehiclePlateInputField.getText().trim();
-            
-            Ticket.setLicenseNumber(LicenseNumber);          
-            
-            Ticket.ParkTheVehicle();            
-
-            MD.ticketTypeField.setText(Ticket.getTicketType());
-
-            MD.vehiclesList.add(new Object[]{Ticket.getTicketID(), Ticket.getLicenseNumber(), Ticket.getVehicleType(), Ticket.getTicketType(), Ticket.getEntryTime()});
-            MD.vehicleModel.setRowCount(0);
-            for (Object[] vehicle : MD.vehiclesList) {
-                MD.vehicleModel.addRow(vehicle);
+            if ("Vé Thường".equals(Ticket.getTicketType())) {
+                ManagerDashboard.CustomOptionPane.showMessage("Bạn có muốn in vé không?", "Thông báo", "In vé ngay");
             }
 
-            JOptionPane.showMessageDialog(MD, "Thêm xe thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-
-            ManagerDashboard.CustomOptionPane.showMessage("Bạn có muốn in vé không?", "Thông báo", "In vé ngay");
-            
             MD.vehiclePlateInputField.setText("");
-            MD.monthlyCardInputField.setText("");
 
         }
+
+        if (cmd.equals("Tìm kiếm xe")) {
+
+            List<ParkingTicket> Result = new ArrayList<>();
+            String LicenseNumber = MD.vehiclePlateInputField.getText().trim();
+
+            Ticket.setLicenseNumber(LicenseNumber);
+
+            Result = Ticket.SearchVehicle(cmd);
+
+            MD.vehicleModel.setRowCount(0);
+            for (ParkingTicket t : Result) {
+                Object[] row = new Object[]{
+                    t.getTicketID(),
+                    t.getLicenseNumber(),
+                    t.getVehicleType(),
+                    t.getTicketType(),
+                    t.getEntryTime()
+                };
+                MD.vehicleModel.addRow(row);
+            }
+            JOptionPane.showMessageDialog(MD, "Đã xong!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            MD.vehiclePlateInputField.setText("");
+        }
+
     }
 }
