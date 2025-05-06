@@ -242,10 +242,19 @@ public class ParkingTicket extends Vehicle {
         try {
             tmp = JDBCUtil.getConnection();
             String GetTheVehicle = "UPDATE parkingticket SET TimeOut = ?  WHERE LicenseNumber = ?";
+            String LayCostXe = "SELECT * FROM parkingticket WHERE LicenseNumber = ?";
+            
+            state = tmp.prepareStatement(LayCostXe);
+            state.setString(1, this.LicenseNumber);
+            Result = state.executeQuery();
+            if(Result.next())
+                this.Cost = Result.getInt("Cost");
+            
             state = tmp.prepareStatement(GetTheVehicle);
             state.setString(1, this.TimeOut);
             state.setString(2, this.LicenseNumber);
             state.executeUpdate();
+            
             if (Result != null) {
                 Result.close();
             }
@@ -262,7 +271,7 @@ public class ParkingTicket extends Vehicle {
     }
     
     public long Charge(){
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm dd-MM-yyyy");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(" HH:mm dd-MM-yyyy");
         LocalDateTime EntryTime = LocalDateTime.parse(this.EntryTime, formatter);
         LocalDateTime TimeOut = LocalDateTime.parse(this.TimeOut, formatter);
         long minutes = Duration.between(EntryTime, TimeOut).toMinutes();

@@ -138,19 +138,36 @@ public class ManagerDashBoardController implements ActionListener {
             ParkingTicket Ticket = new ParkingTicket();
             int selectedRow = MD.vehicleTable.getSelectedRow();
             if (selectedRow == -1) {
-                JOptionPane.showMessageDialog(null, "Vui lòng chọn một xe để xác nhận rời bãi.");
+                JOptionPane.showMessageDialog(MD, "Vui lòng chọn một xe để xác nhận rời bãi.");
                 return;
             }
             DefaultTableModel model = (DefaultTableModel) MD.vehicleTable.getModel();
             String LicenseNumber = model.getValueAt(selectedRow, 1).toString();
-            
+            String EntryTime = model.getValueAt(selectedRow, 4).toString();
+            String TicketType = model.getValueAt(selectedRow, 3).toString();
             Ticket.setLicenseNumber(LicenseNumber);
+            Ticket.setEntryTime(EntryTime);
+            Ticket.setTicketType(TicketType);
             
             MD.vehicleModel.removeRow(selectedRow);
             LocalDateTime now = LocalDateTime.now();
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern(" HH:mm MM-dd-yyyy");
             Ticket.setTimeOut(now.format(formatter));
-            Ticket.GetTheVehicle();          
+            Ticket.GetTheVehicle();
+            long ThoiGianGui = Ticket.Charge();
+            
+            if(TicketType.equals("Vé Thường")){
+                if(ThoiGianGui < (60*24)){
+                    JOptionPane.showMessageDialog(MD, "Số tiền cần thanh toán là : " + Ticket.getCost());
+                    return;
+                }
+                else {
+                    int ThanhToan = Ticket.getCost() * (int)Math.floor(ThoiGianGui / (60*24));
+                    JOptionPane.showMessageDialog(MD, "Số tiền cần thanh toán là : " + ThanhToan);
+                    return;
+                }
+            }
+
         }
     }
 }
