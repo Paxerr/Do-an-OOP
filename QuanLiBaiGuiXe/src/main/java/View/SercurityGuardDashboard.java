@@ -255,7 +255,7 @@ public class SercurityGuardDashboard extends JFrame {
         // Các panel nút riêng cho từng tab
         JPanel vehicleButtonPanel = new JPanel(new FlowLayout());
         JButton vehicleAddBtn = new JButton("Thêm xe");
-        JButton vehicleEditBtn = new JButton("Sửa");
+        JButton vehicleEditBtn = new JButton("Sửa xe");
         
         
         JButton vehicleSearchAllBtn = new JButton("Tìm kiếm xe");
@@ -273,18 +273,18 @@ public class SercurityGuardDashboard extends JFrame {
 
         JPanel historyButtonPanel = new JPanel(new FlowLayout());
         
-        JButton historySearchAllBtn = new JButton("Tìm kiếm xe");
+        JButton historySearchAllBtn = new JButton("Tìm kiếm lịch sử xe");
         
         historyButtonPanel.add(historySearchAllBtn);
 
         
 
         JPanel monthlyCardButtonPanel = new JPanel(new FlowLayout());
-        JButton monthlyCardSearchIdBtn = new JButton("Tìm kiếm theo mã");
-        JButton monthlyCardSearchAllBtn = new JButton("Tìm kiếm xe");
+        JButton monthlyCardSearchIdBtn = new JButton("Tìm kiếm vé theo mã");
+        JButton monthlyCardSearchAllBtn = new JButton("Tìm kiếm vé theo xe");
         
         JButton monthlyCardAddBtn = new JButton("Thêm vé");
-        JButton monthlyCardEditBtn = new JButton("Sửa");
+        JButton monthlyCardEditBtn = new JButton("Sửa vé");
         JButton monthlyCardDeleteBtn = new JButton("Xóa vé");
         JButton monthlyCardGiaHanBtn = new JButton("Gia hạn");
         monthlyCardButtonPanel.add(monthlyCardAddBtn);
@@ -295,7 +295,7 @@ public class SercurityGuardDashboard extends JFrame {
         monthlyCardButtonPanel.add(monthlyCardSearchAllBtn);
 
         JPanel LoginlogoutButtonPanel = new JPanel(new FlowLayout());
-        JButton LoginlogoutSearchIdBtn = new JButton("Tìm kiếm theo mã");
+        JButton LoginlogoutSearchIdBtn = new JButton("Tìm kiếm theo mã NV");
         LoginlogoutButtonPanel.add(LoginlogoutSearchIdBtn);
 
         JButton logoutBtn = new JButton("Đăng xuất");
@@ -368,6 +368,11 @@ public class SercurityGuardDashboard extends JFrame {
             
             monthlyCardInputField.setText("");
         });
+        
+        LoginlogoutSearchIdBtn.addActionListener(e -> {
+            String SearchloginNV = JOptionPane.showInputDialog(this, "Nhập mã NV cần tìm (để trống để hiển thị tất cả):");
+            vehicleModel.setRowCount(0);
+        });
 
         // Listener (Vé tháng)
         monthlyCardAddBtn.addActionListener(e -> {
@@ -403,7 +408,11 @@ public class SercurityGuardDashboard extends JFrame {
             monthlyCardFeeField.setText("");
         });
         
-        
+        historySearchAllBtn.addActionListener(e -> {
+            String SearchLicenseNumber = JOptionPane.showInputDialog(this, "Nhập biển số xe cần tìm (để trống để hiển thị tất cả):");
+            historyModel.setRowCount(0);
+            
+        });
 
      
 
