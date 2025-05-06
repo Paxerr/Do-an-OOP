@@ -8,7 +8,9 @@ import DataBase.JDBCUtil;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -82,20 +84,6 @@ public class ParkingTicket extends Vehicle {
         this.Cost = Cost;
     }
 
-//    public int Charge() {
-//        if (EntryTime == null || TimeOut == null) {
-//            System.out.println("Lỗi: Chưa có thời gian vào hoặc thời gian ra.");
-//            return 0;
-//        }
-//
-//        long durationInMinutes = java.time.Duration.between(EntryTime, TimeOut).toMinutes();
-//
-//        if (durationInMinutes <= 60) {
-//            return 10000;
-//        } else {
-//            return 10000 + (int) Math.ceil((durationInMinutes - 60) / 30.0) * 5000;
-//        }
-//    }
     public void ParkTheVehicle() {
         ResultSet KetQuaTruyVan = null;
         Connection tmp = null;
@@ -113,7 +101,6 @@ public class ParkingTicket extends Vehicle {
             } else {
                 TicketType = "Vé Thường";
             }
-            this.setCost();
             this.setTimeOut("Đang gửi");
             state = tmp.prepareStatement(LayID);
             KetQuaTruyVan = state.executeQuery();
@@ -172,13 +159,15 @@ public class ParkingTicket extends Vehicle {
             Result = state.executeQuery();
 
             while (Result.next()) {
+                String LicenseNumber = Result.getString("LicenseNumber");
                 int TicketID = Result.getInt("TicketID");
                 String VehicleType = Result.getString("VehicleType");
                 String TicketType = Result.getString("TicketType");
                 String EntryTime = Result.getString("EntryTime");
                 String TimeOut = Result.getString("TimeOut");
                 int Cost = Result.getInt("Cost");
-                ParkingTicket t = new ParkingTicket(TicketID, this.LicenseNumber, VehicleType, TicketType, EntryTime, TimeOut, Cost);
+                
+                ParkingTicket t = new ParkingTicket(TicketID, LicenseNumber, VehicleType, TicketType, EntryTime, TimeOut, Cost);
                 ResultSearch.add(t);
             }
 
@@ -198,5 +187,86 @@ public class ParkingTicket extends Vehicle {
         }
         return ResultSearch;
     }
+    public List<ParkingTicket> SearchHistoryVehicle(){
+        List<ParkingTicket> ResultSearch = new ArrayList<>();
+        ResultSet Result = null;
+        Connection tmp = null;
+        PreparedStatement state = null;
+        try {
+            String TimKiemXe = null;
+            tmp = JDBCUtil.getConnection();
+            if (!(this.LicenseNumber.isEmpty())) {
+                TimKiemXe = "SELECT * From parkingticket WHERE LicenseNumber = ?";
+                state = tmp.prepareStatement(TimKiemXe);
+                state.setString(1, this.LicenseNumber);
+            } else {
+                TimKiemXe = "SELECT * From parkingticket";
+                state = tmp.prepareStatement(TimKiemXe);
+            };
 
+            Result = state.executeQuery();
+
+            while (Result.next()) {
+                int TicketID = Result.getInt("TicketID");
+                String LicenseNumber = Result.getString("LicenseNumber");
+                String VehicleType = Result.getString("VehicleType");
+                String TicketType = Result.getString("TicketType");
+                String EntryTime = Result.getString("EntryTime");
+                String TimeOut = Result.getString("TimeOut");
+                int Cost = Result.getInt("Cost");
+                ParkingTicket t = new ParkingTicket(TicketID, LicenseNumber, VehicleType, TicketType, EntryTime, TimeOut, Cost);
+                ResultSearch.add(t);
+            }
+
+            if (Result != null) {
+                Result.close();
+            }
+            if (state != null) {
+                state.close();
+            }
+            if (tmp != null) {
+                tmp.close();
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            this.TicketType = "error";
+        }
+        return ResultSearch;
+    }
+    
+    public void GetTheVehicle(){
+        ResultSet Result = null;
+        Connection tmp = null;
+        PreparedStatement state = null;
+        try {
+            tmp = JDBCUtil.getConnection();
+            Result = state.executeQuery();
+            String GetTheVehicle = "UPDATE parkingticket SET TimeOut = ? WHERE LicenseNumber = ?";
+            state = tmp.prepareStatement(GetTheVehicle);
+            state.setString(1, this.TimeOut);
+            state.setString(2, this.LicenseNumber);
+            
+            if (Result != null) {
+                Result.close();
+            }
+            if (state != null) {
+                state.close();
+            }
+            if (tmp != null) {
+                tmp.close();
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public long Charge(){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm dd-MM-yyyy");
+        LocalDateTime EntryTime = LocalDateTime.parse(this.EntryTime, formatter);
+        LocalDateTime TimeOut = LocalDateTime.parse(this.TimeOut, formatter);
+        long minutes = Duration.between(EntryTime, TimeOut).toMinutes();
+        return minutes;
+    }
 }

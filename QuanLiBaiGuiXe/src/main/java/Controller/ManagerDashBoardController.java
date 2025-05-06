@@ -37,7 +37,6 @@ public class ManagerDashBoardController implements ActionListener {
         String cmd = e.getActionCommand();
 
         if (cmd.equals("Thêm xe")) {
-
             String LicenseNumber = MD.vehiclePlateInputField.getText().trim();
             String VehicleType = MD.vehicleTypeCombo.getSelectedItem().toString();
 
@@ -48,31 +47,39 @@ public class ManagerDashBoardController implements ActionListener {
             Ticket.setLicenseNumber(LicenseNumber);
             Ticket.setVehicleType(VehicleType);
 
-            String rac = Ticket.getLicenseNumber();
-            String rac1 = Ticket.getVehicleType();
-            if (rac.isEmpty() && (rac1.equals("Xe máy") || (rac1.equals("Ô tô")))) {
+            if (LicenseNumber.isEmpty() && (VehicleType.equals("Xe máy") || (VehicleType.equals("Ô tô")))) {
                 JOptionPane.showMessageDialog(MD, "Vui lòng điền đầy đủ thông tin!", "Lỗi", JOptionPane.ERROR_MESSAGE);
                 return;
             }
-
+            if(VehicleType.equals("Xe máy")) Ticket.setCost(5000);
+            if(VehicleType.equals("Ô tô")) Ticket.setCost(10000);
+            if(VehicleType.equals("Xe đạp")) Ticket.setCost(2000);
+            
             Ticket.ParkTheVehicle();
+
 
             if ("error".equals(Ticket.getTicketType())) {
                 JOptionPane.showMessageDialog(MD, "Lỗi hệ thống!", "Lỗi", JOptionPane.ERROR_MESSAGE);
             }
 
-            MD.ticketTypeField.setText(Ticket.getTicketType());
-
-            MD.vehiclesList.add(new Object[]{Ticket.getTicketID(), Ticket.getLicenseNumber(), Ticket.getVehicleType(), Ticket.getTicketType(), Ticket.getEntryTime()});
+            List<ParkingTicket> Result = new ArrayList<>();
+            Result = Ticket.SearchVehicle("Refesh");
             MD.vehicleModel.setRowCount(0);
-            for (Object[] vehicle : MD.vehiclesList) {
-                MD.vehicleModel.addRow(vehicle);
+            for (ParkingTicket t : Result) {
+                Object[] row = new Object[]{
+                    t.getTicketID(),
+                    t.getLicenseNumber(),
+                    t.getVehicleType(),
+                    t.getTicketType(),
+                    t.getEntryTime()
+                };
+                MD.vehicleModel.addRow(row);
             }
 
             JOptionPane.showMessageDialog(MD, "Thêm xe thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
 
             if ("Vé Thường".equals(Ticket.getTicketType())) {
-                ManagerDashboard.CustomOptionPane.showMessage("Bạn có muốn in vé không?", "Thông báo", "In vé ngay");
+                ManagerDashboard.CustomOptionPane.showMessage("Vé đã được in", "Thông báo", "Ok!");
             }
 
             MD.vehiclePlateInputField.setText("");
@@ -86,7 +93,7 @@ public class ManagerDashBoardController implements ActionListener {
 
             Ticket.setLicenseNumber(LicenseNumber);
 
-            if("".equals(LicenseNumber))
+            if(LicenseNumber.isEmpty())
                 Result = Ticket.SearchVehicle("Refesh");
             else
                 Result = Ticket.SearchVehicle(cmd);
@@ -104,5 +111,28 @@ public class ManagerDashBoardController implements ActionListener {
             MD.vehiclePlateInputField.setText("");
         }
 
+        if (cmd.equals("Tìm kiếm lịch sử xe")) {
+
+            List<ParkingTicket> Result = new ArrayList<>();
+            String SearchLicenseNumber = JOptionPane.showInputDialog(MD, "Nhập biển số xe cần tìm (để trống để hiển thị tất cả):");
+            Ticket.setLicenseNumber(SearchLicenseNumber);
+
+            Result = Ticket.SearchHistoryVehicle();
+            
+            MD.historyModel.setRowCount(0);
+            for (ParkingTicket t : Result) {
+                Object[] row = new Object[]{
+                    t.getTicketID(),
+                    t.getLicenseNumber(),
+                    t.getVehicleType(),
+                    t.getTicketType(),
+                    t.getEntryTime(),
+                    t.getTimeOut(),
+                    t.getCost()
+                };
+                MD.historyModel.addRow(row);
+            }
+        }
+        
     }
 }

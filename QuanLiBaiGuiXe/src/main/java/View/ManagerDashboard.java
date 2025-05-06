@@ -150,12 +150,12 @@ public class ManagerDashboard extends JFrame {
         monthlyCardInputField.setVisible(false);
 
         
-
-        vehicleTypeCombo.addActionListener(e -> {
-            boolean isvehicle = vehicleTypeCombo.getSelectedItem().toString().equals("Xe đạp");
-            vehiclePlateInputLabel.setVisible(!isvehicle);
-            vehiclePlateInputField.setVisible(!isvehicle);
-        });
+//
+//        vehicleTypeCombo.addActionListener(e -> {
+//            boolean isvehicle = vehicleTypeCombo.getSelectedItem().toString().equals("Xe đạp");
+//            vehiclePlateInputLabel.setVisible(!isvehicle);
+//            vehiclePlateInputField.setVisible(!isvehicle);
+//        });
 
         String[] vehicleColumns = {"Mã", "Biển số", "Loại xe", "Loại vé", "TG vào bến"};
         vehicleModel = new DefaultTableModel(vehicleColumns, 0);
@@ -167,7 +167,7 @@ public class ManagerDashboard extends JFrame {
 
         // Tab Lịch sử gửi xe
         JPanel historyTab = new JPanel(new BorderLayout());
-        String[] historyColumns = {"Mã", "Biển số", "Loại xe", "TG vào", "TG ra", "Phí", "Loại vé"};
+        String[] historyColumns = {"Mã", "Biển số", "Loại xe", "Loại vé", "TG vào", "Tg ra", "Phí"};
         historyModel = new DefaultTableModel(historyColumns, 0);
         JTable historyTable = new JTable(historyModel);
         JScrollPane historyTableScroll = new JScrollPane(historyTable);
@@ -274,7 +274,6 @@ public class ManagerDashboard extends JFrame {
         JButton vehicleSearchAllBtn = new JButton("Tìm kiếm xe");
         JButton vehicleConfirmExitBtn = new JButton("Xác nhận rời bãi");
         JButton vehicleRegisterMonthlyBtn = new JButton("Đăng ký vé tháng");
-        JButton vehiclePrintBtn = new JButton("In vé");
         vehicleButtonPanel.add(vehicleAddBtn);
         vehicleButtonPanel.add(vehicleEditBtn);
         
@@ -282,15 +281,16 @@ public class ManagerDashboard extends JFrame {
         vehicleButtonPanel.add(vehicleSearchAllBtn);
         vehicleButtonPanel.add(vehicleConfirmExitBtn);
         vehicleButtonPanel.add(vehicleRegisterMonthlyBtn);
-        vehicleButtonPanel.add(vehiclePrintBtn);
 
         JPanel historyButtonPanel = new JPanel(new FlowLayout());
         
         JButton historySearchAllBtn = new JButton("Tìm kiếm lịch sử xe");
         
         historyButtonPanel.add(historySearchAllBtn);
-
+        
+        historySearchAllBtn.addActionListener(ctrl);
         vehicleSearchAllBtn.addActionListener(ctrl);
+        vehicleConfirmExitBtn.addActionListener(ctrl);
 
         JPanel monthlyCardButtonPanel = new JPanel(new FlowLayout());
         JButton monthlyCardSearchIdBtn = new JButton("Tìm kiếm vé theo mã");
@@ -392,12 +392,7 @@ public class ManagerDashboard extends JFrame {
         
         
         
-        
-        historySearchAllBtn.addActionListener(e -> {
-            String SearchLicenseNumber = JOptionPane.showInputDialog(this, "Nhập biển số xe cần tìm (để trống để hiển thị tất cả):");
-            historyModel.setRowCount(0);
-            
-        });
+
 
         manageTab.addActionListener(e -> {
             setVisible(false);
