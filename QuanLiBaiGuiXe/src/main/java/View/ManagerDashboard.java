@@ -209,31 +209,9 @@ public class ManagerDashboard extends JFrame {
         monthlyCardTypeCombo.setPreferredSize(fieldSize);
         monthlyCardInputPanel.add(monthlyCardTypeCombo, mtGbc);
 
-        mtGbc.gridx = 0;
-        mtGbc.gridy = 3;
-        monthlyCardInputPanel.add(new JLabel("Ngày bắt đầu: *"), mtGbc);
-        mtGbc.gridx = 1;
-        monthlyCardStartDateField = new JTextField(15);
-        monthlyCardStartDateField.setPreferredSize(fieldSize);
-        monthlyCardStartDateField.setEditable(false);
-        monthlyCardInputPanel.add(monthlyCardStartDateField, mtGbc);
+        
 
-        mtGbc.gridx = 0;
-        mtGbc.gridy = 4;
-        monthlyCardInputPanel.add(new JLabel("Ngày hết hạn: *"), mtGbc);
-        mtGbc.gridx = 1;
-        monthlyCardEndDateField = new JTextField(15);
-        monthlyCardEndDateField.setPreferredSize(fieldSize);
-        monthlyCardEndDateField.setEditable(false);
-        monthlyCardInputPanel.add(monthlyCardEndDateField, mtGbc);
-
-        mtGbc.gridx = 0;
-        mtGbc.gridy = 5;
-        monthlyCardInputPanel.add(new JLabel("Phí vé (VNĐ): *"), mtGbc);
-        mtGbc.gridx = 1;
-        monthlyCardFeeField = new JTextField(15);
-        monthlyCardFeeField.setPreferredSize(fieldSize);
-        monthlyCardInputPanel.add(monthlyCardFeeField, mtGbc);
+        
         
         vehicleTypeCombo.addActionListener(e -> {
             boolean isMonthlyCard = vehicleTypeCombo.getSelectedItem().toString().equals("Vé tháng");
@@ -241,7 +219,7 @@ public class ManagerDashboard extends JFrame {
             monthlyCardInputField.setVisible(isMonthlyCard);
         });
 
-        String[] monthlyCardColumns = {"Mã vé", "Biển số xe", "Loại xe", "Ngày bắt đầu", "Ngày kết thúc", "Phí vé"};
+        String[] monthlyCardColumns = {"Mã vé", "Biển số xe", "Loại xe", "Thời hạn", "Phí vé"};
         monthlyCardModel = new DefaultTableModel(monthlyCardColumns, 0);
         monthlyCardTable = new JTable(monthlyCardModel);
         JScrollPane monthlyCardTableScroll = new JScrollPane(monthlyCardTable);
@@ -364,14 +342,14 @@ public class ManagerDashboard extends JFrame {
 
             String StartDate = start.format(dateFormatter);
             String ExpireDate = end.format(dateFormatter);
-            String Cost = monthlyCardFeeField.getText().trim();
+            
 
-            if (CardID.isEmpty() ||Cost.isEmpty()||(LicenseNumber.isEmpty() &&(VehicleType.equals("Xe máy")||(VehicleType.equals("Ô tô"))))) {
+            if (CardID.isEmpty() ||(LicenseNumber.isEmpty() &&(VehicleType.equals("Xe máy")||(VehicleType.equals("Ô tô"))))) {
                 JOptionPane.showMessageDialog(this, "Vui lòng điền đầy đủ thông tin!", "Lỗi", JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
-            monthlyCardsList.add(new Object[]{CardID, LicenseNumber, VehicleType, StartDate, ExpireDate, Cost});
+            monthlyCardsList.add(new Object[]{CardID, LicenseNumber, VehicleType, ExpireDate});
             monthlyCardModel.setRowCount(0);
             for (Object[] card : monthlyCardsList) {
                 monthlyCardModel.addRow(card);
