@@ -4,6 +4,7 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.util.ArrayList;
+import Controller.ParkingSercurityGuardManagementController;
 
 public class ParkingSercurityGuardManagement extends JFrame {
     private DefaultTableModel sercurityGuardModel;
@@ -15,6 +16,9 @@ public class ParkingSercurityGuardManagement extends JFrame {
     private JTextField addressField;
     private JTextField phoneField;
     private ArrayList<Object[]> sercurityGuardsList;
+    private ParkingSercurityGuardManagementController controller;
+    private boolean isEditMode = false;
+    private int editRowIndex = -1;
 
     public ParkingSercurityGuardManagement(String username, String role) {
         setTitle("Quản lý nhân viên");
@@ -24,7 +28,15 @@ public class ParkingSercurityGuardManagement extends JFrame {
         
 
         sercurityGuardsList = new ArrayList<>();
-
+        controller = new ParkingSercurityGuardManagementController();
+        
+        sercurityGuardsList = new ArrayList<>(controller.getAllPersons());
+        if (sercurityGuardsList.isEmpty()) {
+            System.out.println("No persons found in database or failed to fetch data.");
+        } else {
+            System.out.println("Loaded " + sercurityGuardsList.size() + " persons from database.");
+        }
+        
         JPanel mainPanel = new JPanel(new BorderLayout());
         mainPanel.setBackground(new Color(255, 165, 0));
 
@@ -48,6 +60,7 @@ public class ParkingSercurityGuardManagement extends JFrame {
         gbc.gridx = 1;
         cccdField = new JTextField(15);
         cccdField.setPreferredSize(fieldSize);
+        cccdField.setEditable(true);
         inputPanel.add(cccdField, gbc);
 
         gbc.gridx = 0;
@@ -103,6 +116,10 @@ public class ParkingSercurityGuardManagement extends JFrame {
         JTable sercurityGuardTable = new JTable(sercurityGuardModel);
         JScrollPane sercurityGuardTableScroll = new JScrollPane(sercurityGuardTable);
 
+        for (Object[] guard : sercurityGuardsList) {
+            sercurityGuardModel.addRow(guard);
+        }
+        
         mainPanel.add(inputPanel, BorderLayout.WEST);
         mainPanel.add(sercurityGuardTableScroll, BorderLayout.CENTER);
 
@@ -121,27 +138,39 @@ public class ParkingSercurityGuardManagement extends JFrame {
         mainPanel.add(buttonPanel, BorderLayout.SOUTH);
 
         addBtn.addActionListener(e -> {
-            String ID = "ID" + String.format("%04d", sercurityGuardsList.size() + 1);
-            String Identifier = cccdField.getText().trim();
-            String FullName = nameField.getText().trim();
-            String Role = roleCombo.getSelectedItem().toString();
-            String birthDate = birthDateField.getText().trim();
-            String gender = genderCombo.getSelectedItem().toString();
-            String Address = addressField.getText().trim();
-            String PhoneNumber = phoneField.getText().trim();
+    String ID = "ID" + String.format("%04d", sercurityGuardsList.size() + 1);
+    String Identifier = cccdField.getText().trim();
+    String FullName = nameField.getText().trim();
+    String Role = roleCombo.getSelectedItem().toString();
+    String birthDate = birthDateField.getText().trim();
+    String gender = genderCombo.getSelectedItem().toString();
+    String Address = addressField.getText().trim();
+    String phoneNumberStr = phoneField.getText().trim(); // Khai báo biến cục bộ
 
-            if (Identifier.isEmpty() ||FullName.isEmpty() ||birthDate.isEmpty() || Address.isEmpty() || PhoneNumber.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Vui lòng điền đầy đủ thông tin!", "Lỗi", JOptionPane.ERROR_MESSAGE);
-                return;
+    if (Identifier.isEmpty() || FullName.isEmpty() || birthDate.isEmpty() || Address.isEmpty() || phoneNumberStr.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Vui lòng điền đầy đủ thông tin!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+
+    int phoneNumber;
+    try {
+        phoneNumber = Integer.parseInt(phoneNumberStr); // Sử dụng biến đã khai báo
+    } catch (NumberFormatException ex) {
+        JOptionPane.showMessageDialog(this, "Số điện thoại phải là số!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+
+            if (controller.addPerson(Identifier, FullName, Address, phoneNumber, gender)) {
+                sercurityGuardsList.add(new Object[]{ID, Identifier, FullName, Role, birthDate, gender, Address, phoneNumber});
+                sercurityGuardModel.setRowCount(0);
+                for (Object[] guard : sercurityGuardsList) {
+                    sercurityGuardModel.addRow(guard);
+                }
+                JOptionPane.showMessageDialog(this, "Thêm nhân viên thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(this, "Thêm nhân viên thất bại!", "Lỗi", JOptionPane.ERROR_MESSAGE);
             }
 
-            sercurityGuardsList.add(new Object[]{ID,Identifier,FullName, Role, birthDate, gender, Address, PhoneNumber});
-            sercurityGuardModel.setRowCount(0);
-            for (Object[] guard : sercurityGuardsList) {
-                sercurityGuardModel.addRow(guard);
-            }
-
-            JOptionPane.showMessageDialog(this, "Thêm nhân viên thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
             cccdField.setText("");
             nameField.setText("");
             roleCombo.setSelectedIndex(0);
@@ -151,15 +180,137 @@ public class ParkingSercurityGuardManagement extends JFrame {
             phoneField.setText("");
         });
 
-        editBtn.addActionListener(e -> {
-            JOptionPane.showMessageDialog(this, "Chức năng chưa được triển khai!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+       deleteBtn.addActionListener(e -> {
+            int selectedRow = sercurityGuardTable.getSelectedRow();
+            if (selectedRow == -1) {
+                JOptionPane.showMessageDialog(this, "Vui lòng chọn một nhân viên để xóa!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            String identifier = sercurityGuardsList.get(selectedRow)[1].toString();
+            int confirm = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn xóa nhân viên này?", "Xác nhận", JOptionPane.YES_NO_OPTION);
+            if (confirm == JOptionPane.YES_OPTION) {
+                if (controller.deletePerson(identifier)) {
+                    sercurityGuardsList.remove(selectedRow);
+                    sercurityGuardModel.removeRow(selectedRow);
+                    JOptionPane.showMessageDialog(this, "Xóa nhân viên thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(this, "Xóa nhân viên thất bại!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                }
+            }
         });
 
-        deleteBtn.addActionListener(e -> {
-            JOptionPane.showMessageDialog(this, "Chức năng chưa được triển khai!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-        });
+        
+            searchBtn.addActionListener(e -> {
+            String searchCCCD = JOptionPane.showInputDialog(this, "Nhập CCCD để tìm kiếm:");
+            if (searchCCCD == null || searchCCCD.trim().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Vui lòng nhập CCCD để tìm kiếm!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
 
-        backBtn.addActionListener(e -> dispose());
+            var searchResults = controller.searchPerson(searchCCCD.trim());
+            sercurityGuardModel.setRowCount(0); 
+            if (!searchResults.isEmpty()) {
+                for (Object[] guard : searchResults) {
+                    sercurityGuardModel.addRow(new Object[]{"", guard[0], guard[1], "Nhân viên", "", "", guard[2], guard[3]});
+                }
+                JOptionPane.showMessageDialog(this, "Tìm thấy nhân viên!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(this, "Không tìm thấy nhân viên với CCCD: " + searchCCCD, "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            
+                sercurityGuardModel.setRowCount(0);
+                for (Object[] guard : sercurityGuardsList) {
+                    sercurityGuardModel.addRow(guard);
+                }
+            }
+        });
+            
+           editBtn.addActionListener(e -> {
+    if (!isEditMode) {
+        
+        int selectedRow = sercurityGuardTable.getSelectedRow();
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn một nhân viên để sửa!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        editRowIndex = selectedRow;
+        Object[] selectedGuard = sercurityGuardsList.get(selectedRow);
+
+        cccdField.setText(selectedGuard[1].toString());
+        cccdField.setEditable(false);
+        nameField.setText(selectedGuard[2].toString());
+        roleCombo.setSelectedItem(selectedGuard[3].toString());
+        birthDateField.setText(selectedGuard[4].toString());
+        genderCombo.setSelectedItem(selectedGuard[5].toString());
+        addressField.setText(selectedGuard[6].toString());
+        phoneField.setText(selectedGuard[7].toString());
+
+        isEditMode = true;
+        editBtn.setText("Lưu");
+    } else {
+        
+        String identifier = cccdField.getText().trim();
+        String fullName = nameField.getText().trim();
+        String roleItem = roleCombo.getSelectedItem().toString();
+        String birthDate = birthDateField.getText().trim();
+        String gender = genderCombo.getSelectedItem().toString();
+        String address = addressField.getText().trim();
+        String phoneNumberStr = phoneField.getText().trim();
+
+       
+        if (identifier.isEmpty() || fullName.isEmpty() || birthDate.isEmpty() || address.isEmpty() || phoneNumberStr.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Vui lòng điền đầy đủ thông tin!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        
+        
+
+        int phoneNumber;
+        try {
+            phoneNumber = Integer.parseInt(phoneNumberStr);
+            if (phoneNumberStr.length() < 10 || phoneNumberStr.length() > 11) {
+                JOptionPane.showMessageDialog(this, "Số điện thoại phải có 10 hoặc 11 chữ số!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this, "Số điện thoại phải là số!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        
+        System.out.println("Attempting to update person - identifier: " + identifier + ", fullName: " + fullName + ", address: " + address + ", phoneNumber: " + phoneNumber + ", gender: " + gender);
+        if (controller.updatePerson(identifier, fullName, address, phoneNumber, gender)) {
+           
+            sercurityGuardsList.set(editRowIndex, new Object[]{"ID" + String.format("%04d", editRowIndex + 1), identifier, fullName, roleItem, birthDate, gender, address, phoneNumber});
+            sercurityGuardModel.setRowCount(0);
+            for (Object[] guard : sercurityGuardsList) {
+                sercurityGuardModel.addRow(guard);
+            }
+            JOptionPane.showMessageDialog(this, "Sửa nhân viên thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+
+            // Reset chế độ và giao diện
+            isEditMode = false;
+            editBtn.setText("Sửa");
+            cccdField.setText("");
+            nameField.setText("");
+            roleCombo.setSelectedIndex(0);
+            birthDateField.setText("");
+            genderCombo.setSelectedIndex(0);
+            addressField.setText("");
+            phoneField.setText("");
+        } else {
+            JOptionPane.showMessageDialog(this, "Sửa nhân viên thất bại! Kiểm tra kết nối database hoặc dữ liệu đầu vào.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            
+        }
+    }
+});
+            
+        backBtn.addActionListener(e -> {
+            controller.closeConnection();
+            dispose();
+        });
 
         add(mainPanel);
         setVisible(true);
