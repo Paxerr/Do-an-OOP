@@ -160,7 +160,7 @@ public class SercurityGuardDashboard extends JFrame {
 
         // Tab Lịch sử gửi xe
         JPanel historyTab = new JPanel(new BorderLayout());
-        String[] historyColumns = {"Mã", "Biển số", "Loại xe", "TG vào", "TG ra", "Phí", "Loại vé"};
+        String[] historyColumns = {"Mã", "Biển số", "Loại xe", "Loại vé", "TG vào", "TG ra", "Phí"};
         historyModel = new DefaultTableModel(historyColumns, 0);
         JTable historyTable = new JTable(historyModel);
         JScrollPane historyTableScroll = new JScrollPane(historyTable);
@@ -202,33 +202,9 @@ public class SercurityGuardDashboard extends JFrame {
         monthlyCardTypeCombo.setPreferredSize(fieldSize);
         monthlyCardInputPanel.add(monthlyCardTypeCombo, mtGbc);
 
-        mtGbc.gridx = 0;
-        mtGbc.gridy = 3;
-        monthlyCardInputPanel.add(new JLabel("Ngày bắt đầu: *"), mtGbc);
-        mtGbc.gridx = 1;
-        monthlyCardStartDateField = new JTextField(15);
-        monthlyCardStartDateField.setPreferredSize(fieldSize);
-        monthlyCardStartDateField.setEditable(false);
-        monthlyCardInputPanel.add(monthlyCardStartDateField, mtGbc);
+        
 
-        mtGbc.gridx = 0;
-        mtGbc.gridy = 4;
-        monthlyCardInputPanel.add(new JLabel("Ngày hết hạn: *"), mtGbc);
-        mtGbc.gridx = 1;
-        monthlyCardEndDateField = new JTextField(15);
-        monthlyCardEndDateField.setPreferredSize(fieldSize);
-        monthlyCardEndDateField.setEditable(false);
-        monthlyCardInputPanel.add(monthlyCardEndDateField, mtGbc);
-
-        mtGbc.gridx = 0;
-        mtGbc.gridy = 5;
-        monthlyCardInputPanel.add(new JLabel("Phí vé (VNĐ): *"), mtGbc);
-        mtGbc.gridx = 1;
-        monthlyCardFeeField = new JTextField(15);
-        monthlyCardFeeField.setPreferredSize(fieldSize);
-        monthlyCardInputPanel.add(monthlyCardFeeField, mtGbc);
-
-        String[] monthlyCardColumns = {"Mã vé", "Biển số xe", "Loại xe", "Ngày bắt đầu", "Ngày kết thúc", "Phí vé"};
+        String[] monthlyCardColumns = {"Mã vé", "Biển số xe", "Loại xe", "Thời hạn", "Phí vé"};
         monthlyCardModel = new DefaultTableModel(monthlyCardColumns, 0);
         monthlyCardTable = new JTable(monthlyCardModel);
         JScrollPane monthlyCardTableScroll = new JScrollPane(monthlyCardTable);
@@ -255,21 +231,21 @@ public class SercurityGuardDashboard extends JFrame {
         // Các panel nút riêng cho từng tab
         JPanel vehicleButtonPanel = new JPanel(new FlowLayout());
         JButton vehicleAddBtn = new JButton("Thêm xe");
-        JButton vehicleEditBtn = new JButton("Sửa xe");
+        
         
         
         JButton vehicleSearchAllBtn = new JButton("Tìm kiếm xe");
         JButton vehicleConfirmExitBtn = new JButton("Xác nhận rời bãi");
         JButton vehicleRegisterMonthlyBtn = new JButton("Đăng ký vé tháng");
-        JButton vehiclePrintBtn = new JButton("In vé");
+       
         vehicleButtonPanel.add(vehicleAddBtn);
-        vehicleButtonPanel.add(vehicleEditBtn);
+        ;
         
         
         vehicleButtonPanel.add(vehicleSearchAllBtn);
         vehicleButtonPanel.add(vehicleConfirmExitBtn);
         vehicleButtonPanel.add(vehicleRegisterMonthlyBtn);
-        vehicleButtonPanel.add(vehiclePrintBtn);
+        
 
         JPanel historyButtonPanel = new JPanel(new FlowLayout());
         
@@ -284,12 +260,10 @@ public class SercurityGuardDashboard extends JFrame {
         JButton monthlyCardSearchAllBtn = new JButton("Tìm kiếm vé theo xe");
         
         JButton monthlyCardAddBtn = new JButton("Thêm vé");
-        JButton monthlyCardEditBtn = new JButton("Sửa vé");
-        JButton monthlyCardDeleteBtn = new JButton("Xóa vé");
+        
         JButton monthlyCardGiaHanBtn = new JButton("Gia hạn");
         monthlyCardButtonPanel.add(monthlyCardAddBtn);
-        monthlyCardButtonPanel.add(monthlyCardEditBtn);
-        monthlyCardButtonPanel.add(monthlyCardDeleteBtn);
+        
         monthlyCardButtonPanel.add(monthlyCardGiaHanBtn);
         monthlyCardButtonPanel.add(monthlyCardSearchIdBtn);
         monthlyCardButtonPanel.add(monthlyCardSearchAllBtn);
@@ -387,14 +361,14 @@ public class SercurityGuardDashboard extends JFrame {
 
             String StartDate = start.format(dateFormatter);
             String ExpireDate = end.format(dateFormatter);
-            String Cost = monthlyCardFeeField.getText().trim();
+            
 
-            if (CardID.isEmpty() ||Cost.isEmpty()||(LiscenseNumber.isEmpty() &&(VehicleType.equals("Xe máy")||(VehicleType.equals("Ô tô"))))) {
+            if (CardID.isEmpty() ||(LiscenseNumber.isEmpty() &&(VehicleType.equals("Xe máy")||(VehicleType.equals("Ô tô"))))) {
                 JOptionPane.showMessageDialog(this, "Vui lòng điền đầy đủ thông tin!", "Lỗi", JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
-            monthlyCardsList.add(new Object[]{CardID, LiscenseNumber, VehicleType, StartDate, ExpireDate, Cost});
+            monthlyCardsList.add(new Object[]{CardID, LiscenseNumber, VehicleType,ExpireDate});
             monthlyCardModel.setRowCount(0);
             for (Object[] card : monthlyCardsList) {
                 monthlyCardModel.addRow(card);
