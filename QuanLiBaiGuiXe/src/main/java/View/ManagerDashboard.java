@@ -1,6 +1,7 @@
 package View;
 
 import Controller.*;
+import Model.ParkingTicket;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
@@ -381,7 +382,6 @@ public class ManagerDashboard extends JFrame {
             
             monthlyCardFeeField.setText("");
         });
-        
         
 
         manageTab.addActionListener(e -> {

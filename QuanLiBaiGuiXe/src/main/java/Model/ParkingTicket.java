@@ -19,10 +19,12 @@ public class ParkingTicket extends Vehicle {
     private String EntryTime;
     private String TimeOut;
 
-    public ParkingTicket(){
-        
-    };
-    public ParkingTicket(int TicketID, String LicenseNumber,String VehicleType,String TicketType,String EntryTime,String TimeOut,int Cost){
+    public ParkingTicket() {
+
+    }
+
+    ;
+    public ParkingTicket(int TicketID, String LicenseNumber, String VehicleType, String TicketType, String EntryTime, String TimeOut, int Cost) {
         this.Cost = Cost;
         this.EntryTime = EntryTime;
         this.VehicleType = VehicleType;
@@ -31,7 +33,7 @@ public class ParkingTicket extends Vehicle {
         this.TimeOut = TimeOut;
         this.TicketType = TicketType;
     }
-    
+
     public void setTicketType(String TicketType) {
         this.TicketType = TicketType;
     }
@@ -94,7 +96,6 @@ public class ParkingTicket extends Vehicle {
 //            return 10000 + (int) Math.ceil((durationInMinutes - 60) / 30.0) * 5000;
 //        }
 //    }
-
     public void ParkTheVehicle() {
         ResultSet KetQuaTruyVan = null;
         Connection tmp = null;
@@ -116,12 +117,15 @@ public class ParkingTicket extends Vehicle {
             this.setTimeOut("Đang gửi");
             state = tmp.prepareStatement(LayID);
             KetQuaTruyVan = state.executeQuery();
-            if(KetQuaTruyVan.next())
+            if (KetQuaTruyVan.next()) {
                 this.TicketID = KetQuaTruyVan.getInt("TicketID") + 1;
-            else
+            } else {
                 this.TicketID = 0;
-             
-            if(this.VehicleType.equals("Xe đạp")) this.LicenseNumber = this.TicketID + "";
+            }
+
+            if (this.VehicleType.equals("Xe đạp")) {
+                this.LicenseNumber = this.TicketID + "";
+            }
             state = tmp.prepareStatement(ThemVeXe);
             state.setString(1, Integer.toString(this.TicketID));
             state.setString(2, this.LicenseNumber);
@@ -145,8 +149,8 @@ public class ParkingTicket extends Vehicle {
             this.TicketType = "error";
         }
     }
-    
-    public List<ParkingTicket> SearchVehicle(String TypeOfSearch){
+
+    public List<ParkingTicket> SearchVehicle(String TypeOfSearch) {
         List<ParkingTicket> ResultSearch = new ArrayList<>();
         ResultSet Result = null;
         Connection tmp = null;
@@ -154,31 +158,30 @@ public class ParkingTicket extends Vehicle {
         try {
             String TimKiemXe = null;
             tmp = JDBCUtil.getConnection();
-            if(TypeOfSearch.equals("Tìm kiếm xe")){
+            if (TypeOfSearch.equals("Tìm kiếm xe")) {
                 TimKiemXe = "SELECT * From parkingticket WHERE LicenseNumber = ? AND TimeOut = ?";
-            }
-            else if(TypeOfSearch.equals("Tìm lịch sử gửi xe")){
-                TimKiemXe = "SELECT * From parkingticket WHERE LicenseNumber = ?";
-            }
-            else if(TypeOfSearch.equals("Refesh")) {
-                TimKiemXe = "SELECT * From parkingticket WHERE LicenseNumber = ?";
+                state = tmp.prepareStatement(TimKiemXe);
+                state.setString(1, this.LicenseNumber);
+                state.setString(2, "Đang gửi");
+            } else if (TypeOfSearch.equals("Refesh")) {
+                TimKiemXe = "SELECT * From parkingticket WHERE TimeOut = ?";
+                state = tmp.prepareStatement(TimKiemXe);
+                state.setString(1, "Đang gửi");
             };
-            state = tmp.prepareStatement(TimKiemXe);
-            state.setString(1, this.LicenseNumber);
-            state.setString(2, "Đang gửi");
+
             Result = state.executeQuery();
-            
+
             while (Result.next()) {
-            int TicketID = Result.getInt("TicketID");
-            String VehicleType = Result.getString("VehicleType");
-            String TicketType = Result.getString("TicketType");
-            String EntryTime = Result.getString("EntryTime");
-            String TimeOut = Result.getString("TimeOut");
-            int Cost = Result.getInt("Cost");
-            ParkingTicket t = new ParkingTicket(TicketID, this.LicenseNumber, VehicleType, TicketType, EntryTime, TimeOut, Cost);
-            ResultSearch.add(t);
+                int TicketID = Result.getInt("TicketID");
+                String VehicleType = Result.getString("VehicleType");
+                String TicketType = Result.getString("TicketType");
+                String EntryTime = Result.getString("EntryTime");
+                String TimeOut = Result.getString("TimeOut");
+                int Cost = Result.getInt("Cost");
+                ParkingTicket t = new ParkingTicket(TicketID, this.LicenseNumber, VehicleType, TicketType, EntryTime, TimeOut, Cost);
+                ResultSearch.add(t);
             }
-            
+
             if (Result != null) {
                 Result.close();
             }
@@ -195,5 +198,5 @@ public class ParkingTicket extends Vehicle {
         }
         return ResultSearch;
     }
-    
+
 }

@@ -86,8 +86,10 @@ public class ManagerDashBoardController implements ActionListener {
 
             Ticket.setLicenseNumber(LicenseNumber);
 
-            Result = Ticket.SearchVehicle(cmd);
-
+            if("".equals(LicenseNumber))
+                Result = Ticket.SearchVehicle("Refesh");
+            else
+                Result = Ticket.SearchVehicle(cmd);
             MD.vehicleModel.setRowCount(0);
             for (ParkingTicket t : Result) {
                 Object[] row = new Object[]{
@@ -99,7 +101,6 @@ public class ManagerDashBoardController implements ActionListener {
                 };
                 MD.vehicleModel.addRow(row);
             }
-            JOptionPane.showMessageDialog(MD, "Đã xong!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
             MD.vehiclePlateInputField.setText("");
         }
 
