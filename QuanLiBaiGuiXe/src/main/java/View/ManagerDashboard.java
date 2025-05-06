@@ -187,7 +187,7 @@ public class ManagerDashboard extends JFrame {
 
         mtGbc.gridx = 0;
         mtGbc.gridy = 0;
-        monthlyCardInputPanel.add(new JLabel("Mã vé tháng: *"), mtGbc);
+        monthlyCardInputPanel.add(new JLabel("Mã thẻ: *"), mtGbc);
         mtGbc.gridx = 1;
         Card_IDField = new JTextField(15);
         Card_IDField.setPreferredSize(fieldSize);
@@ -241,7 +241,7 @@ public class ManagerDashboard extends JFrame {
             monthlyCardInputField.setVisible(isMonthlyCard);
         });
 
-        String[] monthlyCardColumns = {"Mã vé", "Biển số xe", "Loại xe", "Ngày bắt đầu", "Ngày kết thúc", "Phí vé"};
+        String[] monthlyCardColumns = {"Mã thẻ", "Biển số xe", "Loại xe", "Ngày bắt đầu", "Ngày kết thúc", "Phí vé"};
         monthlyCardModel = new DefaultTableModel(monthlyCardColumns, 0);
         monthlyCardTable = new JTable(monthlyCardModel);
         JScrollPane monthlyCardTableScroll = new JScrollPane(monthlyCardTable);
@@ -286,10 +286,7 @@ public class ManagerDashboard extends JFrame {
         
         historyButtonPanel.add(historySearchAllBtn);
         
-        historySearchAllBtn.addActionListener(ctrl);
-        vehicleSearchAllBtn.addActionListener(ctrl);
-        vehicleConfirmExitBtn.addActionListener(ctrl);
-        vehicleRegisterMonthlyBtn.addActionListener(ctrl);
+
 
         JPanel monthlyCardButtonPanel = new JPanel(new FlowLayout());
         JButton monthlyCardSearchIdBtn = new JButton("Tìm kiếm vé theo mã");
@@ -350,44 +347,6 @@ public class ManagerDashboard extends JFrame {
             String SearchloginNV = JOptionPane.showInputDialog(this, "Nhập mã NV cần tìm (để trống để hiển thị tất cả):");
             vehicleModel.setRowCount(0);
         });
-        
-        
-       // Listener (Vé tháng)
-        monthlyCardAddBtn.addActionListener(e -> {
-            String CardID = Card_IDField.getText().trim();
-            String LicenseNumber = monthlyCardLicensePlateField.getText().trim();
-            String VehicleType = monthlyCardTypeCombo.getSelectedItem().toString();
-            LocalDateTime now = LocalDateTime.now();
-            LocalDateTime start = now;
-            LocalDateTime end = start.plusMonths(1);
-            DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("M/yyyy");
-
-            String StartDate = start.format(dateFormatter);
-            String ExpireDate = end.format(dateFormatter);
-            String Cost = monthlyCardFeeField.getText().trim();
-
-            if (CardID.isEmpty() ||Cost.isEmpty()||(LicenseNumber.isEmpty() &&(VehicleType.equals("Xe máy")||(VehicleType.equals("Ô tô"))))) {
-                JOptionPane.showMessageDialog(this, "Vui lòng điền đầy đủ thông tin!", "Lỗi", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-
-            monthlyCardsList.add(new Object[]{CardID, LicenseNumber, VehicleType, StartDate, ExpireDate, Cost});
-            monthlyCardModel.setRowCount(0);
-            for (Object[] card : monthlyCardsList) {
-                monthlyCardModel.addRow(card);
-            }
-
-            JOptionPane.showMessageDialog(this, "Thêm vé tháng thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-            Card_IDField.setText("");
-            monthlyCardLicensePlateField.setText("");
-            monthlyCardTypeCombo.setSelectedIndex(0);
-            
-            monthlyCardFeeField.setText("");
-        });
-        
-        
-        
-
 
         manageTab.addActionListener(e -> {
             setVisible(false);
@@ -418,5 +377,13 @@ public class ManagerDashboard extends JFrame {
 
         add(mainPanel);
         setVisible(true);
+        historySearchAllBtn.addActionListener(ctrl);
+        vehicleSearchAllBtn.addActionListener(ctrl);
+        vehicleConfirmExitBtn.addActionListener(ctrl);
+        vehicleRegisterMonthlyBtn.addActionListener(ctrl);
+        monthlyCardAddBtn.addActionListener(ctrl);
+        monthlyCardSearchIdBtn.addActionListener(ctrl);
+        monthlyCardSearchAllBtn.addActionListener(ctrl);
+        monthlyCardGiaHanBtn.addActionListener(ctrl);
     }
 }
