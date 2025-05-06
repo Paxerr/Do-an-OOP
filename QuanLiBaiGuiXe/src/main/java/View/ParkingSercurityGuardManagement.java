@@ -10,6 +10,8 @@ public class ParkingSercurityGuardManagement extends JFrame {
     private DefaultTableModel sercurityGuardModel;
     private JTextField cccdField;
     private JTextField nameField;
+    private JTextField IDField;
+    private JTextField PasswordField;
     private JComboBox<String> roleCombo;
     private JTextField birthDateField;
     private JComboBox<String> genderCombo;
@@ -56,6 +58,23 @@ public class ParkingSercurityGuardManagement extends JFrame {
 
         gbc.gridx = 0;
         gbc.gridy = 0;
+        inputPanel.add(new JLabel("ID: *"), gbc);
+        gbc.gridx = 1;
+        IDField = new JTextField(15);
+        IDField.setPreferredSize(fieldSize);
+        inputPanel.add(IDField, gbc);
+        
+        
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        inputPanel.add(new JLabel("Password: *"), gbc);
+        gbc.gridx = 1;
+        PasswordField = new JTextField(15);
+        PasswordField.setPreferredSize(fieldSize);
+        inputPanel.add(PasswordField, gbc);
+        
+        gbc.gridx = 0;
+        gbc.gridy = 2;
         inputPanel.add(new JLabel("CCCD: *"), gbc);
         gbc.gridx = 1;
         cccdField = new JTextField(15);
@@ -64,7 +83,7 @@ public class ParkingSercurityGuardManagement extends JFrame {
         inputPanel.add(cccdField, gbc);
 
         gbc.gridx = 0;
-        gbc.gridy = 1;
+        gbc.gridy = 3;
         inputPanel.add(new JLabel("Họ tên: *"), gbc);
         gbc.gridx = 1;
         nameField = new JTextField(15);
@@ -72,15 +91,15 @@ public class ParkingSercurityGuardManagement extends JFrame {
         inputPanel.add(nameField, gbc);
 
         gbc.gridx = 0;
-        gbc.gridy = 2;
+        gbc.gridy = 4;
         inputPanel.add(new JLabel("Chức vụ: *"), gbc);
         gbc.gridx = 1;
-        roleCombo = new JComboBox<>(new String[]{"Quản lý", "Nhân VIên"});
+        roleCombo = new JComboBox<>(new String[]{"Quản lý", "Nhân Viên"});
         roleCombo.setPreferredSize(fieldSize);
         inputPanel.add(roleCombo, gbc);
 
         gbc.gridx = 0;
-        gbc.gridy = 3;
+        gbc.gridy = 5;
         inputPanel.add(new JLabel("Ngày sinh: *"), gbc);
         gbc.gridx = 1;
         birthDateField = new JTextField(15);
@@ -88,7 +107,7 @@ public class ParkingSercurityGuardManagement extends JFrame {
         inputPanel.add(birthDateField, gbc);
 
         gbc.gridx = 0;
-        gbc.gridy = 4;
+        gbc.gridy = 6;
         inputPanel.add(new JLabel("Giới tính: *"), gbc);
         gbc.gridx = 1;
         genderCombo = new JComboBox<>(new String[]{"Nam", "Nữ"});
@@ -96,7 +115,7 @@ public class ParkingSercurityGuardManagement extends JFrame {
         inputPanel.add(genderCombo, gbc);
 
         gbc.gridx = 0;
-        gbc.gridy = 5;
+        gbc.gridy = 7;
         inputPanel.add(new JLabel("Địa chỉ: *"), gbc);
         gbc.gridx = 1;
         addressField = new JTextField(15);
@@ -104,14 +123,14 @@ public class ParkingSercurityGuardManagement extends JFrame {
         inputPanel.add(addressField, gbc);
 
         gbc.gridx = 0;
-        gbc.gridy = 6;
+        gbc.gridy = 8;
         inputPanel.add(new JLabel("Số điện thoại: *"), gbc);
         gbc.gridx = 1;
         phoneField = new JTextField(15);
         phoneField.setPreferredSize(fieldSize);
         inputPanel.add(phoneField, gbc);
 
-        String[] sercurityGuardColumns = {"Mã NV","CCCD", "Họ tên", "Chức vụ", "Ngày sinh", "Giới tính", "Địa chỉ", "SĐT"};
+        String[] sercurityGuardColumns = {"ID","Password","CCCD", "Họ tên", "Chức vụ", "Ngày sinh", "Giới tính", "Địa chỉ", "SĐT"};
         sercurityGuardModel = new DefaultTableModel(sercurityGuardColumns, 0);
         JTable sercurityGuardTable = new JTable(sercurityGuardModel);
         JScrollPane sercurityGuardTableScroll = new JScrollPane(sercurityGuardTable);
@@ -138,16 +157,17 @@ public class ParkingSercurityGuardManagement extends JFrame {
         mainPanel.add(buttonPanel, BorderLayout.SOUTH);
 
         addBtn.addActionListener(e -> {
-    String ID = "ID" + String.format("%04d", sercurityGuardsList.size() + 1);
-    String Identifier = cccdField.getText().trim();
-    String FullName = nameField.getText().trim();
-    String Role = roleCombo.getSelectedItem().toString();
-    String birthDate = birthDateField.getText().trim();
-    String gender = genderCombo.getSelectedItem().toString();
-    String Address = addressField.getText().trim();
-    String phoneNumberStr = phoneField.getText().trim(); // Khai báo biến cục bộ
+        String ID = IDField.getText().trim();
+        String Password=PasswordField.getText().trim();
+        String Identifier = cccdField.getText().trim();
+        String FullName = nameField.getText().trim();
+        String Role = roleCombo.getSelectedItem().toString();
+        String birthDate = birthDateField.getText().trim();
+        String gender = genderCombo.getSelectedItem().toString();
+        String Address = addressField.getText().trim();
+        String phoneNumberStr = phoneField.getText().trim(); // Khai báo biến cục bộ
 
-    if (Identifier.isEmpty() || FullName.isEmpty() || birthDate.isEmpty() || Address.isEmpty() || phoneNumberStr.isEmpty()) {
+    if (ID.isEmpty()||Password.isEmpty()|| Identifier.isEmpty() || FullName.isEmpty() || birthDate.isEmpty() || Address.isEmpty() || phoneNumberStr.isEmpty()) {
         JOptionPane.showMessageDialog(this, "Vui lòng điền đầy đủ thông tin!", "Lỗi", JOptionPane.ERROR_MESSAGE);
         return;
     }
@@ -161,7 +181,7 @@ public class ParkingSercurityGuardManagement extends JFrame {
     }
 
             if (controller.addPerson(Identifier, FullName, Address, phoneNumber, gender)) {
-                sercurityGuardsList.add(new Object[]{ID, Identifier, FullName, Role, birthDate, gender, Address, phoneNumber});
+                sercurityGuardsList.add(new Object[]{ID,Password,Identifier,FullName, Role, birthDate, gender, Address, phoneNumber});
                 sercurityGuardModel.setRowCount(0);
                 for (Object[] guard : sercurityGuardsList) {
                     sercurityGuardModel.addRow(guard);
@@ -171,6 +191,8 @@ public class ParkingSercurityGuardManagement extends JFrame {
                 JOptionPane.showMessageDialog(this, "Thêm nhân viên thất bại!", "Lỗi", JOptionPane.ERROR_MESSAGE);
             }
 
+            IDField.setText("");
+            PasswordField.setText("");
             cccdField.setText("");
             nameField.setText("");
             roleCombo.setSelectedIndex(0);
