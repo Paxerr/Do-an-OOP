@@ -268,14 +268,12 @@ public class ManagerDashboard extends JFrame {
         // Các panel nút riêng cho từng tab
         JPanel vehicleButtonPanel = new JPanel(new FlowLayout());
         JButton vehicleAddBtn = new JButton("Thêm xe");
-        JButton vehicleEditBtn = new JButton("Sửa xe");
         
         
         JButton vehicleSearchAllBtn = new JButton("Tìm kiếm xe");
         JButton vehicleConfirmExitBtn = new JButton("Xác nhận rời bãi");
         JButton vehicleRegisterMonthlyBtn = new JButton("Đăng ký vé tháng");
         vehicleButtonPanel.add(vehicleAddBtn);
-        vehicleButtonPanel.add(vehicleEditBtn);
         
         
         vehicleButtonPanel.add(vehicleSearchAllBtn);
@@ -298,10 +296,8 @@ public class ManagerDashboard extends JFrame {
         JButton monthlyCardSearchAllBtn = new JButton("Tìm kiếm vé theo xe");
         
         JButton monthlyCardAddBtn = new JButton("Thêm vé");
-        JButton monthlyCardDeleteBtn = new JButton("Xóa vé");
         JButton monthlyCardGiaHanBtn = new JButton("Gia hạn");
         monthlyCardButtonPanel.add(monthlyCardAddBtn);
-        monthlyCardButtonPanel.add(monthlyCardDeleteBtn);
         monthlyCardButtonPanel.add(monthlyCardGiaHanBtn);
         monthlyCardButtonPanel.add(monthlyCardSearchIdBtn);
         monthlyCardButtonPanel.add(monthlyCardSearchAllBtn);
