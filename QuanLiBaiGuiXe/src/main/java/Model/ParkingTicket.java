@@ -97,11 +97,11 @@ public class ParkingTicket extends Vehicle {
             state.setString(1, this.LicenseNumber);
             KetQuaTruyVan = state.executeQuery();
             if (KetQuaTruyVan.next()) {
-                TicketType = "Vé Tháng";
+                TicketType = "VÃ© ThÃ¡ng";
             } else {
-                TicketType = "Vé Thường";
+                TicketType = "VÃ© ThÆ°á»ng";
             }
-            this.setTimeOut("Đang gửi");
+            this.setTimeOut("Äang gá»­i");
             state = tmp.prepareStatement(LayID);
             KetQuaTruyVan = state.executeQuery();
             if (KetQuaTruyVan.next()) {
@@ -110,7 +110,7 @@ public class ParkingTicket extends Vehicle {
                 this.TicketID = 0;
             }
 
-            if (this.VehicleType.equals("Xe đạp")) {
+            if (this.VehicleType.equals("Xe Ä‘áº¡p")) {
                 this.LicenseNumber = this.TicketID + "";
             }
             state = tmp.prepareStatement(ThemVeXe);
@@ -145,15 +145,15 @@ public class ParkingTicket extends Vehicle {
         try {
             String TimKiemXe = null;
             tmp = JDBCUtil.getConnection();
-            if (TypeOfSearch.equals("Tìm kiếm xe")) {
+            if (TypeOfSearch.equals("TÃ¬m kiáº¿m xe")) {
                 TimKiemXe = "SELECT * From parkingticket WHERE LicenseNumber = ? AND TimeOut = ?";
                 state = tmp.prepareStatement(TimKiemXe);
                 state.setString(1, this.LicenseNumber);
-                state.setString(2, "Đang gửi");
+                state.setString(2, "Äang gá»­i");
             } else if (TypeOfSearch.equals("Refesh")) {
                 TimKiemXe = "SELECT * From parkingticket WHERE TimeOut = ?";
                 state = tmp.prepareStatement(TimKiemXe);
-                state.setString(1, "Đang gửi");
+                state.setString(1, "Äang gá»­i");
             };
 
             Result = state.executeQuery();
