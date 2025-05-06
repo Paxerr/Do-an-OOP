@@ -53,14 +53,14 @@ public class ManagerDashboard extends JFrame {
             JOptionPane.DEFAULT_OPTION,
             JOptionPane.QUESTION_MESSAGE,
             null,
-            new Object[]{buttonText}, // Nút tùy chỉnh
+            new Object[]{buttonText}, // NÃºt tÃ¹y chá»‰nh
             buttonText
         );
     }
 }
 
     public ManagerDashboard(String username, String role) {
-        setTitle("Hệ thống quản lý bãi đỗ xe");
+        setTitle("Há»‡ thá»‘ng quáº£n lÃ½ bÃ£i Ä‘á»— xe");
         setSize(1000, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -77,18 +77,18 @@ public class ManagerDashboard extends JFrame {
         JPanel topPanel = new JPanel(new BorderLayout());
         topPanel.setBackground(new Color(255, 165, 0));
 
-        JLabel titleLabel = new JLabel("Chào ", SwingConstants.CENTER);
+        JLabel titleLabel = new JLabel("ChÃ o ", SwingConstants.CENTER);
         titleLabel.setFont(new Font("Arial", Font.BOLD, 16));
         topPanel.add(titleLabel, BorderLayout.NORTH);
 
-        JLabel roleLabel = new JLabel("Chức vụ: " + role, SwingConstants.CENTER);
+        JLabel roleLabel = new JLabel("Chá»©c vá»¥: " + role, SwingConstants.CENTER);
         roleLabel.setFont(new Font("Arial", Font.PLAIN, 14));
         topPanel.add(roleLabel, BorderLayout.CENTER);
 
         JPanel tabPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         tabPanel.setBackground(new Color(255, 165, 0));
-        JButton manageTab = new JButton("Quản lý");
-        JButton statsTab = new JButton("Thống kê");
+        JButton manageTab = new JButton("Quáº£n lÃ½");
+        JButton statsTab = new JButton("Thá»‘ng kÃª");
         tabPanel.add(manageTab);
         tabPanel.add(statsTab);
         topPanel.add(tabPanel, BorderLayout.SOUTH);
@@ -97,12 +97,12 @@ public class ManagerDashboard extends JFrame {
 
         JTabbedPane tabs = new JTabbedPane();
 
-        // Tab Quản lý xe
+        // Tab Quáº£n lÃ½ xe
         JSplitPane vehicleTab = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
         vehicleTab.setResizeWeight(0.5);
 
         JPanel vehiclePanel = new JPanel(new GridBagLayout());
-        vehiclePanel.setBorder(BorderFactory.createTitledBorder("Quản lý xe"));
+        vehiclePanel.setBorder(BorderFactory.createTitledBorder("Quáº£n lÃ½ xe"));
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 5, 5, 5);
         gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -111,7 +111,7 @@ public class ManagerDashboard extends JFrame {
 
         gbc.gridx = 0;
         gbc.gridy = 0;
-        vehiclePlateInputLabel = new JLabel("biển số: *");
+        vehiclePlateInputLabel = new JLabel("biá»ƒn sá»‘: *");
         vehiclePanel.add(vehiclePlateInputLabel, gbc);
         gbc.gridx = 1;
         vehiclePlateInputField = new JTextField(15);
@@ -122,15 +122,15 @@ public class ManagerDashboard extends JFrame {
 
         gbc.gridx = 0;
         gbc.gridy = 1;
-        vehiclePanel.add(new JLabel("Loại xe: *"), gbc);
+        vehiclePanel.add(new JLabel("Loáº¡i xe: *"), gbc);
         gbc.gridx = 1;
-        vehicleTypeCombo = new JComboBox<>(new String[]{"Xe máy", "Ô tô","Xe đạp"});
+        vehicleTypeCombo = new JComboBox<>(new String[]{"Xe mÃ¡y", "Ã” tÃ´","Xe Ä‘áº¡p"});
         vehicleTypeCombo.setPreferredSize(fieldSize);
         vehiclePanel.add(vehicleTypeCombo, gbc);
 
         gbc.gridx = 0;
         gbc.gridy = 2;
-        vehiclePanel.add(new JLabel("Loại vé: *"), gbc);
+        vehiclePanel.add(new JLabel("Loáº¡i vÃ©: *"), gbc);
         gbc.gridx = 1;
         
         ticketTypeField = new JTextField(15);
@@ -140,7 +140,7 @@ public class ManagerDashboard extends JFrame {
 
         gbc.gridx = 0;
         gbc.gridy = 3;
-        monthlyCardInputLabel = new JLabel("Mã vé tháng: *");
+        monthlyCardInputLabel = new JLabel("MÃ£ vÃ© thÃ¡ng: *");
         vehiclePanel.add(monthlyCardInputLabel, gbc);
         gbc.gridx = 1;
         monthlyCardInputField = new JTextField(15);
@@ -152,12 +152,12 @@ public class ManagerDashboard extends JFrame {
         
 //
 //        vehicleTypeCombo.addActionListener(e -> {
-//            boolean isvehicle = vehicleTypeCombo.getSelectedItem().toString().equals("Xe đạp");
+//            boolean isvehicle = vehicleTypeCombo.getSelectedItem().toString().equals("Xe Ä‘áº¡p");
 //            vehiclePlateInputLabel.setVisible(!isvehicle);
 //            vehiclePlateInputField.setVisible(!isvehicle);
 //        });
 
-        String[] vehicleColumns = {"Mã", "Biển số", "Loại xe", "Loại vé", "TG vào bến"};
+        String[] vehicleColumns = {"MÃ£", "Biá»ƒn sá»‘", "Loáº¡i xe", "Loáº¡i vÃ©", "TG vÃ o báº¿n"};
         vehicleModel = new DefaultTableModel(vehicleColumns, 0);
         vehicleTable = new JTable(vehicleModel);
         JScrollPane vehicleTableScroll = new JScrollPane(vehicleTable);
@@ -165,9 +165,9 @@ public class ManagerDashboard extends JFrame {
         vehicleTab.setLeftComponent(vehiclePanel);
         vehicleTab.setRightComponent(vehicleTableScroll);
 
-        // Tab Lịch sử gửi xe
+        // Tab Lá»‹ch sá»­ gá»­i xe
         JPanel historyTab = new JPanel(new BorderLayout());
-        String[] historyColumns = {"Mã", "Biển số", "Loại xe", "Loại vé", "TG vào", "Tg ra", "Phí"};
+        String[] historyColumns = {"MÃ£", "Biá»ƒn sá»‘", "Loáº¡i xe", "Loáº¡i vÃ©", "TG vÃ o", "Tg ra", "PhÃ­"};
         historyModel = new DefaultTableModel(historyColumns, 0);
         JTable historyTable = new JTable(historyModel);
         JScrollPane historyTableScroll = new JScrollPane(historyTable);
@@ -175,19 +175,19 @@ public class ManagerDashboard extends JFrame {
 
        
 
-        // Tab Vé tháng
+        // Tab VÃ© thÃ¡ng
         JSplitPane monthlyCardTab = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
         monthlyCardTab.setResizeWeight(0.5);
 
         JPanel monthlyCardInputPanel = new JPanel(new GridBagLayout());
-        monthlyCardInputPanel.setBorder(BorderFactory.createTitledBorder("Quản lý vé tháng"));
+        monthlyCardInputPanel.setBorder(BorderFactory.createTitledBorder("Quáº£n lÃ½ vÃ© thÃ¡ng"));
         GridBagConstraints mtGbc = new GridBagConstraints();
         mtGbc.insets = new Insets(5, 5, 5, 5);
         mtGbc.fill = GridBagConstraints.HORIZONTAL;
 
         mtGbc.gridx = 0;
         mtGbc.gridy = 0;
-        monthlyCardInputPanel.add(new JLabel("Mã thẻ: *"), mtGbc);
+        monthlyCardInputPanel.add(new JLabel("MÃ£ tháº»: *"), mtGbc);
         mtGbc.gridx = 1;
         Card_IDField = new JTextField(15);
         Card_IDField.setPreferredSize(fieldSize);
@@ -195,7 +195,7 @@ public class ManagerDashboard extends JFrame {
 
         mtGbc.gridx = 0;
         mtGbc.gridy = 1;
-        monthlyCardInputPanel.add(new JLabel("Biển số xe: *"), mtGbc);
+        monthlyCardInputPanel.add(new JLabel("Biá»ƒn sá»‘ xe: *"), mtGbc);
         mtGbc.gridx = 1;
         monthlyCardLicensePlateField = new JTextField(15);
         monthlyCardLicensePlateField.setPreferredSize(fieldSize);
@@ -203,9 +203,9 @@ public class ManagerDashboard extends JFrame {
 
         mtGbc.gridx = 0;
         mtGbc.gridy = 2;
-        monthlyCardInputPanel.add(new JLabel("Loại xe: *"), mtGbc);
+        monthlyCardInputPanel.add(new JLabel("Loáº¡i xe: *"), mtGbc);
         mtGbc.gridx = 1;
-        monthlyCardTypeCombo = new JComboBox<>(new String[]{"Xe máy", "Ô tô","Xe đạp"});
+        monthlyCardTypeCombo = new JComboBox<>(new String[]{"Xe mÃ¡y", "Ã” tÃ´","Xe Ä‘áº¡p"});
         monthlyCardTypeCombo.setPreferredSize(fieldSize);
         monthlyCardInputPanel.add(monthlyCardTypeCombo, mtGbc);
 
@@ -214,13 +214,13 @@ public class ManagerDashboard extends JFrame {
         
         
         vehicleTypeCombo.addActionListener(e -> {
-            boolean isMonthlyCard = vehicleTypeCombo.getSelectedItem().toString().equals("Vé tháng");
+            boolean isMonthlyCard = vehicleTypeCombo.getSelectedItem().toString().equals("VÃ© thÃ¡ng");
             monthlyCardInputLabel.setVisible(isMonthlyCard);
             monthlyCardInputField.setVisible(isMonthlyCard);
         });
 
 
-        String[] monthlyCardColumns = {"Mã vé", "Biển số xe", "Loại xe", "Thời hạn", "Phí vé"};
+        String[] monthlyCardColumns = {"MÃ£ vÃ©", "Biá»ƒn sá»‘ xe", "Loáº¡i xe", "Thá»i háº¡n", "PhÃ­ vÃ©"};
         monthlyCardModel = new DefaultTableModel(monthlyCardColumns, 0);
         monthlyCardTable = new JTable(monthlyCardModel);
         JScrollPane monthlyCardTableScroll = new JScrollPane(monthlyCardTable);
@@ -228,30 +228,30 @@ public class ManagerDashboard extends JFrame {
         monthlyCardTab.setLeftComponent(monthlyCardInputPanel);
         monthlyCardTab.setRightComponent(monthlyCardTableScroll);
 
-        // Tab Nhân viên
+        // Tab NhÃ¢n viÃªn
         JPanel LoginlogoutTab = new JPanel(new BorderLayout());
-        String[] LoginlogoutColumns = {"STT","Mã NV", "Họ tên", "Chức vụ", "Login", "Logout"};
+        String[] LoginlogoutColumns = {"STT","MÃ£ NV", "Há» tÃªn", "Chá»©c vá»¥", "Login", "Logout"};
         LoginlogoutModel = new DefaultTableModel(LoginlogoutColumns, 0);
         JTable LoginlogoutTable = new JTable(LoginlogoutModel);
         JScrollPane LoginlogoutTableScroll = new JScrollPane(LoginlogoutTable);
         LoginlogoutTab.add(LoginlogoutTableScroll, BorderLayout.CENTER);
 
-        tabs.addTab("Quản lý xe", vehicleTab);
-        tabs.addTab("Lịch sử gửi xe", historyTab);
+        tabs.addTab("Quáº£n lÃ½ xe", vehicleTab);
+        tabs.addTab("Lá»‹ch sá»­ gá»­i xe", historyTab);
         
-        tabs.addTab("Quản lý vé tháng", monthlyCardTab);
-        tabs.addTab("Lịch sử đăng nhập", LoginlogoutTab);
+        tabs.addTab("Quáº£n lÃ½ vÃ© thÃ¡ng", monthlyCardTab);
+        tabs.addTab("Lá»‹ch sá»­ Ä‘Äƒng nháº­p", LoginlogoutTab);
 
         mainPanel.add(tabs, BorderLayout.CENTER);
 
-        // Các panel nút riêng cho từng tab
+        // CÃ¡c panel nÃºt riÃªng cho tá»«ng tab
         JPanel vehicleButtonPanel = new JPanel(new FlowLayout());
-        JButton vehicleAddBtn = new JButton("Thêm xe");
+        JButton vehicleAddBtn = new JButton("ThÃªm xe");
         
         
-        JButton vehicleSearchAllBtn = new JButton("Tìm kiếm xe");
-        JButton vehicleConfirmExitBtn = new JButton("Xác nhận rời bãi");
-        JButton vehicleRegisterMonthlyBtn = new JButton("Đăng ký vé tháng");
+        JButton vehicleSearchAllBtn = new JButton("TÃ¬m kiáº¿m xe");
+        JButton vehicleConfirmExitBtn = new JButton("XÃ¡c nháº­n rá»i bÃ£i");
+        JButton vehicleRegisterMonthlyBtn = new JButton("ÄÄƒng kÃ½ vÃ© thÃ¡ng");
         vehicleButtonPanel.add(vehicleAddBtn);
         
         
@@ -261,28 +261,28 @@ public class ManagerDashboard extends JFrame {
 
         JPanel historyButtonPanel = new JPanel(new FlowLayout());
         
-        JButton historySearchAllBtn = new JButton("Tìm kiếm lịch sử xe");
+        JButton historySearchAllBtn = new JButton("TÃ¬m kiáº¿m lá»‹ch sá»­ xe");
         
         historyButtonPanel.add(historySearchAllBtn);
         
 
 
         JPanel monthlyCardButtonPanel = new JPanel(new FlowLayout());
-        JButton monthlyCardSearchIdBtn = new JButton("Tìm kiếm vé theo mã");
-        JButton monthlyCardSearchAllBtn = new JButton("Tìm kiếm vé theo xe");
+        JButton monthlyCardSearchIdBtn = new JButton("TÃ¬m kiáº¿m vÃ© theo mÃ£");
+        JButton monthlyCardSearchAllBtn = new JButton("TÃ¬m kiáº¿m vÃ© theo xe");
         
-        JButton monthlyCardAddBtn = new JButton("Thêm vé");
-        JButton monthlyCardGiaHanBtn = new JButton("Gia hạn");
+        JButton monthlyCardAddBtn = new JButton("ThÃªm vÃ©");
+        JButton monthlyCardGiaHanBtn = new JButton("Gia háº¡n");
         monthlyCardButtonPanel.add(monthlyCardAddBtn);
         monthlyCardButtonPanel.add(monthlyCardGiaHanBtn);
         monthlyCardButtonPanel.add(monthlyCardSearchIdBtn);
         monthlyCardButtonPanel.add(monthlyCardSearchAllBtn);
 
         JPanel LoginlogoutButtonPanel = new JPanel(new FlowLayout());
-        JButton LoginlogoutSearchIdBtn = new JButton("Tìm kiếm theo mã NV");
+        JButton LoginlogoutSearchIdBtn = new JButton("TÃ¬m kiáº¿m theo mÃ£ NV");
         LoginlogoutButtonPanel.add(LoginlogoutSearchIdBtn);
 
-        JButton logoutBtn = new JButton("Đăng xuất");
+        JButton logoutBtn = new JButton("ÄÄƒng xuáº¥t");
 
         JPanel currentButtonPanel = new JPanel(new CardLayout());
         currentButtonPanel.add(vehicleButtonPanel, "Vehicle");
@@ -323,7 +323,7 @@ public class ManagerDashboard extends JFrame {
         vehicleAddBtn.addActionListener(ctrl);
         
         LoginlogoutSearchIdBtn.addActionListener(e -> {
-            String SearchloginNV = JOptionPane.showInputDialog(this, "Nhập mã NV cần tìm (để trống để hiển thị tất cả):");
+            String SearchloginNV = JOptionPane.showInputDialog(this, "Nháº­p mÃ£ NV cáº§n tÃ¬m (Ä‘á»ƒ trá»‘ng Ä‘á»ƒ hiá»ƒn thá»‹ táº¥t cáº£):");
             vehicleModel.setRowCount(0);
         });
 
