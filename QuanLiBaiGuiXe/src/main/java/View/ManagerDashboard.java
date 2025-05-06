@@ -291,17 +291,16 @@ public class ManagerDashboard extends JFrame {
         historySearchAllBtn.addActionListener(ctrl);
         vehicleSearchAllBtn.addActionListener(ctrl);
         vehicleConfirmExitBtn.addActionListener(ctrl);
+        vehicleRegisterMonthlyBtn.addActionListener(ctrl);
 
         JPanel monthlyCardButtonPanel = new JPanel(new FlowLayout());
         JButton monthlyCardSearchIdBtn = new JButton("Tìm kiếm vé theo mã");
         JButton monthlyCardSearchAllBtn = new JButton("Tìm kiếm vé theo xe");
         
         JButton monthlyCardAddBtn = new JButton("Thêm vé");
-        JButton monthlyCardEditBtn = new JButton("Sửa vé");
         JButton monthlyCardDeleteBtn = new JButton("Xóa vé");
         JButton monthlyCardGiaHanBtn = new JButton("Gia hạn");
         monthlyCardButtonPanel.add(monthlyCardAddBtn);
-        monthlyCardButtonPanel.add(monthlyCardEditBtn);
         monthlyCardButtonPanel.add(monthlyCardDeleteBtn);
         monthlyCardButtonPanel.add(monthlyCardGiaHanBtn);
         monthlyCardButtonPanel.add(monthlyCardSearchIdBtn);

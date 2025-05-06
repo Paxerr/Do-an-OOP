@@ -84,7 +84,6 @@ public class ManagerDashBoardController implements ActionListener {
             }
 
             MD.vehiclePlateInputField.setText("");
-
         }
 
         if (cmd.equals("Tìm kiếm xe")) {
@@ -167,6 +166,50 @@ public class ManagerDashBoardController implements ActionListener {
                     return;
                 }
             }
+        }
+        
+        if(cmd.equals("Đăng kí vé tháng")){
+            
+            int selectedRow = MD.vehicleTable.getSelectedRow();
+            if (selectedRow == -1) {
+                JOptionPane.showMessageDialog(MD, "Vui lòng chọn một xe để đăng kí vé tháng.");
+                return;
+            }
+            DefaultTableModel model = (DefaultTableModel) MD.vehicleTable.getModel();
+            
+            LocalDateTime now = LocalDateTime.now();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern(" HH:mm MM-dd-yyyy");
+            Ticket.setEntryTime(now.format(formatter));
+
+            
+            Ticket.ParkTheVehicle();
+
+
+            if ("error".equals(Ticket.getTicketType())) {
+                JOptionPane.showMessageDialog(MD, "Lỗi hệ thống!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            }
+
+            List<ParkingTicket> Result = new ArrayList<>();
+            Result = Ticket.SearchVehicle("Refesh");
+            MD.vehicleModel.setRowCount(0);
+            for (ParkingTicket t : Result) {
+                Object[] row = new Object[]{
+                    t.getTicketID(),
+                    t.getLicenseNumber(),
+                    t.getVehicleType(),
+                    t.getTicketType(),
+                    t.getEntryTime()
+                };
+                MD.vehicleModel.addRow(row);
+            }
+
+            JOptionPane.showMessageDialog(MD, "Thêm xe thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+
+            if ("Vé Thường".equals(Ticket.getTicketType())) {
+                ManagerDashboard.CustomOptionPane.showMessage("Vé đã được in", "Thông báo", "Ok!");
+            }
+
+            MD.vehiclePlateInputField.setText("");
 
         }
     }
