@@ -241,12 +241,11 @@ public class ParkingTicket extends Vehicle {
         PreparedStatement state = null;
         try {
             tmp = JDBCUtil.getConnection();
-            Result = state.executeQuery();
-            String GetTheVehicle = "UPDATE parkingticket SET TimeOut = ? WHERE LicenseNumber = ?";
+            String GetTheVehicle = "UPDATE parkingticket SET TimeOut = ?  WHERE LicenseNumber = ?";
             state = tmp.prepareStatement(GetTheVehicle);
             state.setString(1, this.TimeOut);
             state.setString(2, this.LicenseNumber);
-            
+            state.executeUpdate();
             if (Result != null) {
                 Result.close();
             }

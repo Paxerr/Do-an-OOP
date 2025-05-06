@@ -17,6 +17,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -133,6 +134,23 @@ public class ManagerDashBoardController implements ActionListener {
                 MD.historyModel.addRow(row);
             }
         }
-        
+        if (cmd.equals("Xác nhận rời bãi")){
+            ParkingTicket Ticket = new ParkingTicket();
+            int selectedRow = MD.vehicleTable.getSelectedRow();
+            if (selectedRow == -1) {
+                JOptionPane.showMessageDialog(null, "Vui lòng chọn một xe để xác nhận rời bãi.");
+                return;
+            }
+            DefaultTableModel model = (DefaultTableModel) MD.vehicleTable.getModel();
+            String LicenseNumber = model.getValueAt(selectedRow, 1).toString();
+            
+            Ticket.setLicenseNumber(LicenseNumber);
+            
+            MD.vehicleModel.removeRow(selectedRow);
+            LocalDateTime now = LocalDateTime.now();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern(" HH:mm MM-dd-yyyy");
+            Ticket.setTimeOut(now.format(formatter));
+            Ticket.GetTheVehicle();          
+        }
     }
 }
