@@ -5,8 +5,17 @@
 package Model;
 
 public class Person {
-    protected String FullName, Address, PhoneNumber, Identifier;
+    protected String FullName, Address, PhoneNumber, Identifier,Gender;
     Person(){};
+
+    public Person(String FullName, String Address, String PhoneNumber, String Identifier, String Gender) {
+        this.FullName = FullName;
+        this.Address = Address;
+        this.PhoneNumber = PhoneNumber;
+        this.Identifier = Identifier;
+        this.Gender = Gender;
+    }
+    
     public String getFullName() {
         return FullName;
     }
@@ -22,7 +31,15 @@ public class Person {
     public String getIdentifier() {
         return Identifier;
     }
-
+    
+    public String getGender(){
+        return Gender;
+    }
+    
+    public void setGender(String Gender){
+        this.Gender= Gender;
+    }
+    
     public void setFullName(String FullName) {
         this.FullName = FullName;
     }
